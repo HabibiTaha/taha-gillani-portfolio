@@ -2,6 +2,23 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, Briefcase, Code, Circle } from 'lucide-react';
 
+const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    width="12"
+    height="12"
+    stroke="currentColor"
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
 interface AccordionItem {
   id: string;
   title: string;
@@ -75,9 +92,11 @@ const PROJECT_ITEMS: AccordionItem[] = [
     logo: '/engine_logo.png',
     logoBg: '#000000',
     bullets: [
-      'Engineered a low-level game entity system in modern C++ utilizing the Bridge design pattern to decouple abstractions.',
-      'Optimized memory layouts, manual pointer allocations, and enforced strict RAII rules preventing memory leaks.',
-      'Structured cross-platform compilation targets and builds using CMake configuration scripts.'
+      'Developed a modular, high-performance game entity system using modern C++ (C++17/20), emphasizing memory efficiency and cache-friendly data structures.',
+      'Implemented the Bridge design pattern to isolate entity representations from their implementation details, decoupling the NPC codebase and enhancing extensibility.',
+      'Enforced strict memory management practices including manual pointer operations, customized smart pointers, and RAII principles to completely eliminate memory leaks.',
+      'Engineered inventory and item allocation algorithms using STL containers (std::vector, std::unordered_map) optimized for low retrieval latency.',
+      'Configured a cross-platform compilation pipeline utilizing CMake build scripting, organizing external dependency management and compiler warning sets.'
     ],
     tech: ['C++', 'OOP', 'Bridge Pattern', 'RAII', 'CMake', 'Memory Management'],
     github: 'https://github.com/HabibiTaha'
@@ -90,9 +109,11 @@ const PROJECT_ITEMS: AccordionItem[] = [
     logo: '/cloud_db_logo.png',
     logoBg: '#000000',
     bullets: [
-      'Designed robust web applications with RESTful API architectures built on the MERN stack.',
-      'Containerized development and deployment dependencies via Docker packaging.',
-      'Configured CI/CD automation and deployed scalable applications to AWS and Azure cloud platforms.'
+      'Architected scalable full-stack web applications using the MERN stack (MongoDB, Express.js, React, Node.js), writing RESTful API routes and services.',
+      'Implemented robust authentication pipelines using JSON Web Tokens (JWT) and encrypted passwords with bcrypt for secure user access.',
+      'Containerized application microservices using Docker and Docker Compose, creating consistent localized development environments.',
+      'Configured automated CI/CD deployment pipelines using GitHub Actions to coordinate unit testing and production builds.',
+      'Deployed and managed cloud server and database instances across AWS (EC2/S3) and Azure App Services, utilizing MongoDB Atlas for cloud persistence.'
     ],
     tech: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Docker', 'AWS', 'Azure', 'CI/CD'],
     github: 'https://github.com/HabibiTaha'
@@ -245,9 +266,10 @@ export default function TabsContent() {
                               href={item.github}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex items-center gap-1.5 font-mono text-[10px] px-3 py-1.5 rounded-sm border border-white/10 bg-white/2 text-white/60 hover:text-[#00FFFF] hover:border-[#00FFFF]/30 hover:bg-[#00FFFF]/5 transition-all cursor-pointer social-link github"
+                              className="flex items-center gap-2 font-mono text-[10px] px-3 py-1.5 rounded-sm border border-white/10 bg-white/2 text-white/60 hover:text-[#00FFFF] hover:border-[#00FFFF]/30 hover:bg-[#00FFFF]/5 transition-all cursor-pointer social-link github"
                             >
-                              <span>Source Code</span>
+                              <GithubIcon className="flex-shrink-0" />
+                              <span>Check it out on GitHub</span>
                               <span>↗</span>
                             </a>
                           )}
