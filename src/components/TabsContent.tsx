@@ -11,6 +11,8 @@ interface AccordionItem {
   tech?: string[];
   logo?: string;
   logoBg?: string;
+  github?: string;
+  live?: string;
 }
 
 const EXPERIENCE_ITEMS: AccordionItem[] = [
@@ -61,7 +63,9 @@ const PROJECT_ITEMS: AccordionItem[] = [
       'Built an interactive Matter.js canvas hosting 37 skill blocks, featuring Zero Gravity floating states and category-based column stacking.',
       'Implemented custom passive wheel and touch event intercepts to allow seamless page scrollability on desktop and mobile.'
     ],
-    tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Matter.js', 'Vite']
+    tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Matter.js', 'Vite'],
+    github: 'https://github.com/HabibiTaha/taha-gillani-portfolio',
+    live: 'https://tahagillani.vercel.app'
   },
   {
     id: 'proj-2',
@@ -75,7 +79,8 @@ const PROJECT_ITEMS: AccordionItem[] = [
       'Optimized memory layouts, manual pointer allocations, and enforced strict RAII rules preventing memory leaks.',
       'Structured cross-platform compilation targets and builds using CMake configuration scripts.'
     ],
-    tech: ['C++', 'OOP', 'Bridge Pattern', 'RAII', 'CMake', 'Memory Management']
+    tech: ['C++', 'OOP', 'Bridge Pattern', 'RAII', 'CMake', 'Memory Management'],
+    github: 'https://github.com/HabibiTaha'
   },
   {
     id: 'proj-3',
@@ -89,7 +94,8 @@ const PROJECT_ITEMS: AccordionItem[] = [
       'Containerized development and deployment dependencies via Docker packaging.',
       'Configured CI/CD automation and deployed scalable applications to AWS and Azure cloud platforms.'
     ],
-    tech: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Docker', 'AWS', 'Azure', 'CI/CD']
+    tech: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Docker', 'AWS', 'Azure', 'CI/CD'],
+    github: 'https://github.com/HabibiTaha'
   }
 ];
 
@@ -230,6 +236,34 @@ export default function TabsContent() {
                           </li>
                         ))}
                       </ul>
+
+                      {/* Project Links */}
+                      {(item.github || item.live) && (
+                        <div className="flex gap-3 mt-4 pt-3 border-t border-white/5">
+                          {item.github && (
+                            <a
+                              href={item.github}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center gap-1.5 font-mono text-[10px] px-3 py-1.5 rounded-sm border border-white/10 bg-white/2 text-white/60 hover:text-[#00FFFF] hover:border-[#00FFFF]/30 hover:bg-[#00FFFF]/5 transition-all cursor-pointer social-link github"
+                            >
+                              <span>Source Code</span>
+                              <span>↗</span>
+                            </a>
+                          )}
+                          {item.live && (
+                            <a
+                              href={item.live}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center gap-1.5 font-mono text-[10px] px-3 py-1.5 rounded-sm border border-white/10 bg-white/2 text-white/60 hover:text-[#00FF00] hover:border-[#00FF00]/30 hover:bg-[#00FF00]/5 transition-all cursor-pointer social-link resume"
+                            >
+                              <span>Live Site</span>
+                              <span>↗</span>
+                            </a>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 )}
