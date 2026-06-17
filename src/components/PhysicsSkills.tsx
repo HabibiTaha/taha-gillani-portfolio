@@ -13,9 +13,9 @@ const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 3: Cloud & DevOps
   "Git": 3, "Docker": 3, "AWS": 3, "Azure": 3, "CI/CD": 3,
   // Column 4: Systems & Physics
-  "Memory Management": 4, "OOP": 4, "Game Physics": 4, "Collision Detection": 4, "CMake": 4, "RAII": 4,
+  "OOP": 4, "Game Physics": 4, "Collision Detection": 4, "CMake": 4, "RAII": 4,
   // Column 5: Business, Tools & AI
-  "PowerBI": 5, "MS": 5, "Office365": 5, "Finance": 5, "PowerApps": 5, "PCs": 5, "Agile": 5, "MachineLearning": 5, "AI": 5, "Prompting": 5
+  "PowerBI": 5, "MS": 5, "Office365": 5, "Finance": 5, "PowerApps": 5, "PCs": 5, "Agile": 5, "MachineLearning": 5, "AI": 5, "Prompting": 5, "SAP": 5
 };
 
 const CATEGORY_NAMES = [
@@ -170,7 +170,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     // ── 3. SPAWN TECH STACK BLOCKS ──
     const skills = [
       "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
-      "REST APIs", "Game Physics", "Collision Detection", "Memory Management", 
+      "REST APIs", "Game Physics", "Collision Detection", "SAP", 
       "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
       "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
       "Express", "Django", "AI", "C", "Prompting", "PowerApps", 

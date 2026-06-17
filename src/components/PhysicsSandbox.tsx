@@ -43,7 +43,7 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
     // ── 3. SPAWN TECH STACK BLOCKS ──
     const skills = [
       "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
-      "REST APIs", "Game Physics", "Collision Detection", "Memory Management", 
+      "REST APIs", "Game Physics", "Collision Detection", "SAP", 
       "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
       "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
       "Express", "Django", "AI", "C", "Prompting", "PowerApps", 
