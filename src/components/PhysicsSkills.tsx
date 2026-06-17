@@ -1,0 +1,494 @@
+import { useRef, useEffect } from 'react';
+import { Engine, World, Bodies, Mouse, MouseConstraint, Composite, Body } from 'matter-js';
+
+const CYBER_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Magenta, Yellow, Neon Green
+
+const SKILL_CATEGORIES: { [key: string]: number } = {
+  // Column 0: Languages
+  "C++": 0, "C": 0, "Python": 0, "Java": 0, "Javascript": 0, "SQL": 0,
+  // Column 1: Frontend & Web API
+  "React": 1, "Vercel": 1, "API": 1, "JSON": 1,
+  // Column 2: Backend & DB
+  "Node.js": 2, "Express": 2, "MongoDB": 2, "REST APIs": 2, "Supabase": 2, "Django": 2,
+  // Column 3: Cloud & DevOps
+  "Git": 3, "Docker": 3, "AWS": 3, "Azure": 3, "CI/CD": 3,
+  // Column 4: Systems & Physics
+  "Memory Management": 4, "OOP": 4, "Game Physics": 4, "Collision Detection": 4, "CMake": 4, "RAII": 4,
+  // Column 5: Business, Tools & AI
+  "PowerBI": 5, "MS": 5, "Office365": 5, "Finance": 5, "PowerApps": 5, "PCs": 5, "Agile": 5, "MachineLearning": 5, "AI": 5, "Prompting": 5
+};
+
+const CATEGORY_NAMES = [
+  "Languages",
+  "Frontend",
+  "Backend",
+  "DevOps",
+  "Systems",
+  "Tools & AI"
+];
+
+interface PhysicsSkillsProps {
+  zeroGravity: boolean;
+  onToggleGravity: () => void;
+  stacked: boolean;
+  onToggleStacked: () => void;
+}
+
+export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, onToggleStacked }: PhysicsSkillsProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const engineRef = useRef<Engine | null>(null);
+  const zeroGravityRef = useRef(zeroGravity);
+  const stackedRef = useRef(stacked);
+  
+  // Track bounds inside refs to keep them updated for the render loop
+  const dimensionsRef = useRef({ width: 800, height: 400 });
+  const boundaryRefs = useRef<{
+    floor: Body | null;
+    ceiling: Body | null;
+    left: Body | null;
+    right: Body | null;
+  }>({ floor: null, ceiling: null, left: null, right: null });
+
+  // Sync zeroGravity status
+  useEffect(() => {
+    zeroGravityRef.current = zeroGravity;
+    if (engineRef.current) {
+      engineRef.current.gravity.y = zeroGravity ? 0 : 1;
+
+      // Adjust friction & bounce of all bodies dynamically
+      const bodies = Composite.allBodies(engineRef.current.world);
+      bodies.forEach((body) => {
+        // Only modify if not static (meaning not frozen in stacked state)
+        if (!body.isStatic) {
+          if (zeroGravity) {
+            // Space mode: zero friction, zero air drag, perfect elastic bounces
+            body.frictionAir = 0;
+            body.friction = 0;
+            body.frictionStatic = 0;
+            body.restitution = 1.0;
+
+            // Push static blocks to start floating immediately
+            if (Math.abs(body.velocity.x) < 0.15 && Math.abs(body.velocity.y) < 0.15) {
+              Body.setVelocity(body, {
+                x: (Math.random() - 0.5) * 3.5,
+                y: (Math.random() - 0.5) * 3.5,
+              });
+            }
+          } else {
+            // Earth mode: restore gravity behaviors
+            body.frictionAir = 0.01;
+            body.friction = 0.08;
+            body.frictionStatic = 0.5;
+            body.restitution = 0.45;
+          }
+        }
+      });
+    }
+  }, [zeroGravity]);
+
+  // Sync stacked status
+  useEffect(() => {
+    stackedRef.current = stacked;
+    if (engineRef.current) {
+      const bodies = Composite.allBodies(engineRef.current.world);
+      
+      if (stacked) {
+        const currentWidth = dimensionsRef.current.width;
+        const currentHeight = dimensionsRef.current.height;
+        const numCols = 6;
+        const colWidth = currentWidth / numCols;
+        const colCounters = [0, 0, 0, 0, 0, 0];
+
+        bodies.forEach((body) => {
+          if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
+            const colIndex = SKILL_CATEGORIES[body.label];
+            const itemIndex = colCounters[colIndex]++;
+            const blockHeight = (body as any).h || 42;
+            const x = colWidth * (colIndex + 0.5);
+            // Stack from the bottom up, leaving room for floor and category labels
+            const y = currentHeight - 50 - (itemIndex * (blockHeight + 10));
+
+            Body.setStatic(body, true);
+            Body.setPosition(body, { x, y });
+            Body.setAngle(body, 0);
+            Body.setVelocity(body, { x: 0, y: 0 });
+            Body.setAngularVelocity(body, 0);
+          }
+        });
+      } else {
+        // Restore dynamic state
+        bodies.forEach((body) => {
+          if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
+            Body.setStatic(body, false);
+            // Give them a tiny random velocity nudge so they fall dynamically
+            Body.setVelocity(body, {
+              x: (Math.random() - 0.5) * 1.5,
+              y: (Math.random() - 0.5) * 1.5
+            });
+          }
+        });
+      }
+    }
+  }, [stacked]);
+
+
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    let width = container.clientWidth || 800;
+    let height = container.clientHeight || 400;
+    canvas.width = width;
+    canvas.height = height;
+    dimensionsRef.current = { width, height };
+
+    // ── 1. INITIALIZE MATTER.JS ENGINE ──
+    const engine = Engine.create({
+      gravity: { x: 0, y: zeroGravity ? 0 : 1, scale: 0.001 }
+    });
+    engineRef.current = engine;
+
+    // ── 2. CREATE WALL BOUNDARIES (THICK AND ENCLOSED) ──
+    const wallLeft = Bodies.rectangle(-100, height / 2, 200, height + 400, { isStatic: true });
+    const wallRight = Bodies.rectangle(width + 100, height / 2, 200, height + 400, { isStatic: true });
+    const floor = Bodies.rectangle(width / 2, height + 100, width + 400, 200, { isStatic: true });
+    const ceiling = Bodies.rectangle(width / 2, -100, width + 400, 200, { isStatic: true });
+
+    boundaryRefs.current = { floor, ceiling, left: wallLeft, right: wallRight };
+
+    Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
+
+    // ── 3. SPAWN TECH STACK BLOCKS ──
+    const skills = [
+      "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
+      "REST APIs", "Game Physics", "Collision Detection", "Memory Management", 
+      "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
+      "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
+      "Express", "Django", "AI", "C", "Prompting", "PowerApps", 
+      "API", "JSON", "PCs", "Agile", "MachineLearning", "CMake", "RAII", "CI/CD"
+    ];
+
+    const isMobile = width < 768;
+
+    const blocks = skills.map((skill, index) => {
+      // Calculate responsive block dimensions based on text length and screen width
+      const blockWidth = isMobile ? (skill.length * 8 + 20) : (skill.length * 10.5 + 32);
+      const blockHeight = isMobile ? 32 : 42;
+      const fontSize = isMobile ? 11 : 13;
+      
+      // Spawn clustered in the upper-middle region of the visible canvas width/height
+      const x = (width / 4) + (Math.random() * (width / 2));
+      const y = 40 + Math.random() * (height / 2 - 60);
+
+      const block = Bodies.rectangle(x, y, blockWidth, blockHeight, {
+        restitution: zeroGravity ? 1.0 : 0.45,
+        friction: zeroGravity ? 0 : 0.08,
+        frictionAir: zeroGravity ? 0 : 0.012,
+        frictionStatic: zeroGravity ? 0 : 0.5,
+        label: skill,
+      });
+
+      // Attach custom render attributes
+      (block as any).w = blockWidth;
+      (block as any).h = blockHeight;
+      (block as any).fontSize = fontSize;
+      (block as any).color = CYBER_COLORS[index % CYBER_COLORS.length];
+      return block;
+    });
+
+    Composite.add(engine.world, blocks);
+
+    // If initial state is stacked, organize them immediately
+    if (stackedRef.current) {
+      const numCols = 6;
+      const colWidth = width / numCols;
+      const colCounters = [0, 0, 0, 0, 0, 0];
+      blocks.forEach((block) => {
+        if (block.label && SKILL_CATEGORIES[block.label] !== undefined) {
+          const colIndex = SKILL_CATEGORIES[block.label];
+          const itemIndex = colCounters[colIndex]++;
+          const blockHeight = (block as any).h || 42;
+          const x = colWidth * (colIndex + 0.5);
+          const y = height - 50 - (itemIndex * (blockHeight + 10));
+
+          Body.setStatic(block, true);
+          Body.setPosition(block, { x, y });
+          Body.setAngle(block, 0);
+          Body.setVelocity(block, { x: 0, y: 0 });
+          Body.setAngularVelocity(block, 0);
+        }
+      });
+    }
+
+    // ── 4. ATTACH MOUSE CONSTRAINT (WITH TOUCH & SCROLL SUPPORT) ──
+
+    // Enable touch scroll on empty canvas spaces for mobile devices
+    const getTouchPos = (e: TouchEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      if (e.touches.length === 0) return { x: 0, y: 0 };
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    };
+
+    const handleTouchStartMove = (e: TouchEvent) => {
+      const pos = getTouchPos(e);
+      const bodies = Composite.allBodies(engine.world).filter(b => !b.isStatic);
+      const hit = bodies.some(body => {
+        return pos.x >= body.bounds.min.x &&
+               pos.x <= body.bounds.max.x &&
+               pos.y >= body.bounds.min.y &&
+               pos.y <= body.bounds.max.y;
+      });
+      if (!hit) {
+        // Stop Matter.js from capturing the event, allowing the page to scroll
+        e.stopImmediatePropagation();
+      }
+    };
+
+    canvas.addEventListener('touchstart', handleTouchStartMove, { passive: true });
+    canvas.addEventListener('touchmove', handleTouchStartMove, { passive: true });
+
+    const mouse = Mouse.create(canvas);
+    // Remove Matter's default wheel listeners so the page can scroll when hovering over the canvas
+    canvas.removeEventListener('mousewheel', (mouse as any).mousewheel);
+    canvas.removeEventListener('DOMMouseScroll', (mouse as any).mousewheel);
+
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: { visible: false }
+      }
+    });
+
+    Composite.add(engine.world, mouseConstraint);
+
+    // ── 5. RESIZE OBSERVER FOR MOBILE BOUNDARIES ──
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width: w, height: h } = entry.contentRect;
+        if (w === 0 || h === 0) continue;
+        
+        canvas.width = w;
+        canvas.height = h;
+        dimensionsRef.current = { width: w, height: h };
+
+        const bounds = boundaryRefs.current;
+        if (bounds.left) Body.setPosition(bounds.left, { x: -100, y: h / 2 });
+        if (bounds.right) Body.setPosition(bounds.right, { x: w + 100, y: h / 2 });
+        if (bounds.floor) Body.setPosition(bounds.floor, { x: w / 2, y: h + 100 });
+        if (bounds.ceiling) Body.setPosition(bounds.ceiling, { x: w / 2, y: -100 });
+
+        // If stacked is active, recalculate positions for all blocks
+        if (stackedRef.current && engineRef.current) {
+          const bodies = Composite.allBodies(engineRef.current.world);
+          const numCols = 6;
+          const colWidth = w / numCols;
+          const colCounters = [0, 0, 0, 0, 0, 0];
+
+          bodies.forEach((body) => {
+            if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
+              const colIndex = SKILL_CATEGORIES[body.label];
+              const itemIndex = colCounters[colIndex]++;
+              const blockHeight = (body as any).h || 42;
+              const x = colWidth * (colIndex + 0.5);
+              const y = h - 50 - (itemIndex * (blockHeight + 10));
+              Body.setPosition(body, { x, y });
+            }
+          });
+        }
+      }
+    });
+    
+    resizeObserver.observe(container);
+
+    // ── 6. DRAW & ANIMATION LOOP ──
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+
+    const renderLoop = () => {
+      // Step physics
+      Engine.update(engine, 16.666);
+
+      const currentWidth = dimensionsRef.current.width;
+      const currentHeight = dimensionsRef.current.height;
+
+      // Keep blocks strictly within screen bounds (prevent clipping)
+      const bounceCoeff = zeroGravityRef.current ? -1.0 : -0.5;
+      blocks.forEach((block) => {
+        const w = (block as any).w;
+        const h = (block as any).h;
+        const minX = w / 2 + 2;
+        const maxX = currentWidth - w / 2 - 2;
+        const minY = h / 2 + 2;
+        const maxY = currentHeight - h / 2 - 2;
+
+        let posX = block.position.x;
+        let posY = block.position.y;
+        let velX = block.velocity.x;
+        let velY = block.velocity.y;
+        let reset = false;
+
+        if (posX < minX) {
+          posX = minX;
+          velX = velX * bounceCoeff;
+          reset = true;
+        } else if (posX > maxX) {
+          posX = maxX;
+          velX = velX * bounceCoeff;
+          reset = true;
+        }
+
+        if (posY < minY) {
+          posY = minY;
+          velY = velY * bounceCoeff;
+          reset = true;
+        } else if (posY > maxY) {
+          posY = maxY;
+          velY = velY * bounceCoeff;
+          reset = true;
+        }
+
+        if (reset) {
+          Body.setPosition(block, { x: posX, y: posY });
+          Body.setVelocity(block, { x: velX, y: velY });
+        }
+      });
+
+      // Clear to pitch black
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, currentWidth, currentHeight);
+
+      // Render subtle background grid
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.015)';
+      ctx.lineWidth = 1;
+      const grid = 40;
+      for (let xPos = 0; xPos < currentWidth; xPos += grid) {
+        ctx.beginPath();
+        ctx.moveTo(xPos, 0);
+        ctx.lineTo(xPos, currentHeight);
+        ctx.stroke();
+      }
+      for (let yPos = 0; yPos < currentHeight; yPos += grid) {
+        ctx.beginPath();
+        ctx.moveTo(0, yPos);
+        ctx.lineTo(currentWidth, yPos);
+        ctx.stroke();
+      }
+
+      // Draw category headers if stacked
+      if (stackedRef.current) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.font = 'bold 9px "Space Mono", monospace';
+        ctx.textAlign = 'center';
+        for (let col = 0; col < 6; col++) {
+          const colWidth = currentWidth / 6;
+          const x = colWidth * (col + 0.5);
+          // Draw at y = 30 (above the stacks)
+          ctx.fillText(CATEGORY_NAMES[col].toUpperCase(), x, 30);
+        }
+      }
+
+      // Draw each block
+      blocks.forEach((block) => {
+        const w = (block as any).w;
+        const h = (block as any).h;
+        const fontSize = (block as any).fontSize || 12;
+        const color = (block as any).color;
+
+        ctx.save();
+        ctx.translate(block.position.x, block.position.y);
+        ctx.rotate(block.angle);
+
+        // Check hover / selection
+        const isHovered = mouseConstraint.body === block || 
+          (mouse.position.x >= block.bounds.min.x &&
+           mouse.position.x <= block.bounds.max.x &&
+           mouse.position.y >= block.bounds.min.y &&
+           mouse.position.y <= block.bounds.max.y);
+
+        if (isHovered) {
+          // Hover fill state: solid cyber color background, black text
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = color;
+          ctx.fillStyle = color;
+          ctx.fillRect(-w / 2, -h / 2, w, h);
+          
+          ctx.fillStyle = '#000000';
+          ctx.font = `bold ${fontSize + 1}px "Space Mono", monospace`;
+        } else {
+          // Normal state: translucent dark background, cyber color border, cyber color text
+          ctx.fillStyle = 'rgba(10, 10, 10, 0.85)';
+          ctx.fillRect(-w / 2, -h / 2, w, h);
+
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1.8;
+          ctx.strokeRect(-w / 2, -h / 2, w, h);
+
+          ctx.fillStyle = color; // colored text instead of white!
+          ctx.font = `bold ${fontSize}px "Space Mono", monospace`;
+        }
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(block.label || '', 0, 0);
+
+        ctx.restore();
+      });
+
+      animationFrameId = requestAnimationFrame(renderLoop);
+    };
+
+    animationFrameId = requestAnimationFrame(renderLoop);
+
+    return () => {
+      resizeObserver.disconnect();
+      cancelAnimationFrame(animationFrameId);
+      canvas.removeEventListener('touchstart', handleTouchStartMove);
+      canvas.removeEventListener('touchmove', handleTouchStartMove);
+      World.clear(engine.world, false);
+      Engine.clear(engine);
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-black flex flex-col justify-between">
+      {/* Simulation HUD bar */}
+      <div className="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none font-mono text-[9px] text-white/40">
+        <span className="bg-black/80 px-2 py-1 border border-white/5 rounded">MATTER_ENGINE // ACTIVE</span>
+        <div className="flex gap-2 pointer-events-auto">
+          <button
+            onClick={onToggleStacked}
+            className={`px-3 py-1 border rounded text-[9px] font-bold transition-all ${
+              stacked
+                ? 'bg-[#00FFFF] border-[#00FFFF] text-black shadow-[0_0_12px_rgba(0,255,255,0.4)]'
+                : 'bg-black/80 border-white/20 hover:border-white hover:bg-white/5 text-white'
+            }`}
+          >
+            {stacked ? 'GRID STACK: ON' : 'STACK NEATLY'}
+          </button>
+          <button
+            onClick={onToggleGravity}
+            className={`px-3 py-1 border rounded text-[9px] font-bold transition-all ${
+              zeroGravity
+                ? 'bg-white border-white text-black shadow-[0_0_12px_rgba(255,255,255,0.4)]'
+                : 'bg-black/80 border-white/20 hover:border-white hover:bg-white/5 text-white'
+            }`}
+          >
+            {zeroGravity ? 'ZERO GRAVITY: ON' : 'ZERO GRAVITY: OFF'}
+          </button>
+        </div>
+      </div>
+      
+      {/* Canvas */}
+      <canvas ref={canvasRef} className="block w-full h-full cursor-grab active:cursor-grabbing" />
+    </div>
+  );
+}

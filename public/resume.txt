@@ -1,0 +1,65 @@
+SYED TAHA GILLANI
+Calgary, Alberta
+LinkedIn: https://www.linkedin.com/in/taha-gillani/
+GitHub:   https://github.com/HabibiTaha
+
+─────────────────────────────────────────────────────
+PROFESSIONAL SUMMARY
+─────────────────────────────────────────────────────
+A dynamic Full-Stack Software Engineer and 4th-year Computer Science
+student blending deep technical proficiency (MERN, C++, Cloud
+Infrastructure) with a strong foundation in high-volume sales and
+operational management. Seeking 2026 software engineering internships.
+
+─────────────────────────────────────────────────────
+EDUCATION
+─────────────────────────────────────────────────────
+University of Lethbridge | Lethbridge, AB
+  Bachelor of Science, Computer Science (4th Year) | GPA: 3.8
+
+Southern Alberta Institute of Technology (SAIT) | Calgary, AB
+  Graduated: April 2024
+
+─────────────────────────────────────────────────────
+TECHNICAL SKILLS
+─────────────────────────────────────────────────────
+Languages:        C++, C, Python, JavaScript
+Web & Frameworks: MERN Stack (MongoDB, Express.js, React, Node.js), RESTful APIs
+DevOps & Cloud:   Git, Docker, AWS, Azure
+Audio:            Sound Forge Pro 18, FL Studio
+
+─────────────────────────────────────────────────────
+EXPERIENCE
+─────────────────────────────────────────────────────
+Commissioned Sales Representative
+Visions Electronics | Calgary, AB
+  - High-volume electronics sales in commission-based environment.
+  - Translates complex technical specs into clear customer value.
+  - Manages client relationships and financial transactions.
+
+Operations & Business Management
+Shell Gas Stations | Yellowknife, NT
+  - Supported daily operations of a high-traffic retail franchise.
+  - Inventory management, vendor relations, financial ledger reconciliation.
+
+─────────────────────────────────────────────────────
+KEY PROJECTS
+─────────────────────────────────────────────────────
+Interactive Physics-Sandbox Developer Portfolio
+  Stack: React, TypeScript, Framer Motion, Matter.js, Vite
+  - Portfolio dashboard built around a high-performance 2D physics engine canvas.
+  - Full-screen scroll-locked boot sequence with slow typewriter intro.
+  - Smooth layout transitions and reveals using Framer Motion.
+  - Interactive Matter.js sandbox with Zero Gravity and category-based stacking.
+  - Passive event handlers resolving mobile and desktop scroll conflicts.
+
+NPC & Item Management Engine
+  Stack: C++, OOP, Bridge Design Pattern, CMake
+  - Major low-level system architecture project.
+  - Bridge pattern decouples abstractions from implementations.
+  - Focused on memory efficiency, pointer management, RAII.
+
+Full-Stack Development (MERN/Cloud)
+  Stack: MongoDB, Express.js, React, Node.js, Docker, AWS, Azure
+  - Robust web applications with RESTful API architecture.
+  - Containerized via Docker, deployed across AWS and Azure pipelines.
