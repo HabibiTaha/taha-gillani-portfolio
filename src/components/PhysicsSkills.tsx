@@ -15,7 +15,7 @@ const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 4: Systems & Physics
   "OOP": 4, "Game Physics": 4, "Collision Detection": 4, "CMake": 4, "RAII": 4,
   // Column 5: Business, Tools & AI
-  "PowerBI": 5, "MS": 5, "Office365": 5, "Finance": 5, "PowerApps": 5, "PCs": 5, "Agile": 5, "MachineLearning": 5, "AI": 5, "Prompting": 5, "SAP": 5
+  "PowerBI": 5, "MS": 5, "Office365": 5, "Finance": 5, "PowerApps": 5, "PCs": 5, "Agile": 5, "AI/ML": 5, "Prompting": 5, "SAP": 5
 };
 
 const CATEGORY_NAMES = [
@@ -167,14 +167,13 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
 
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
-    // ── 3. SPAWN TECH STACK BLOCKS ──
     const skills = [
       "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
       "REST APIs", "Game Physics", "Collision Detection", "SAP", 
       "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
       "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
-      "Express", "Django", "AI", "C", "Prompting", "PowerApps", 
-      "API", "JSON", "PCs", "Agile", "MachineLearning", "CMake", "RAII", "CI/CD"
+      "Express", "Django", "AI/ML", "C", "Prompting", "PowerApps", 
+      "API", "JSON", "PCs", "Agile", "CMake", "RAII", "CI/CD"
     ];
 
     const isMobile = window.innerWidth < 768;

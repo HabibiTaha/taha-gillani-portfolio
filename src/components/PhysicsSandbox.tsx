@@ -40,14 +40,13 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
 
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
-    // ── 3. SPAWN TECH STACK BLOCKS ──
     const skills = [
       "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
       "REST APIs", "Game Physics", "Collision Detection", "SAP", 
       "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
       "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
-      "Express", "Django", "AI", "C", "Prompting", "PowerApps", 
-      "API", "JSON", "PCs", "Agile", "MachineLearning", "CMake", "RAII", "CI/CD"
+      "Express", "Django", "AI/ML", "C", "Prompting", "PowerApps", 
+      "API", "JSON", "PCs", "Agile", "CMake", "RAII", "CI/CD"
     ];
     const blocks = skills.map((skill, index) => {
       // Calculate dynamic block size based on text length
