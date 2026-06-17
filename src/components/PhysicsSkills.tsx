@@ -171,13 +171,13 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
       "API", "JSON", "PCs", "Agile", "MachineLearning", "CMake", "RAII", "CI/CD"
     ];
 
-    const isMobile = width < 768;
+    const isMobile = window.innerWidth < 768;
 
     const blocks = skills.map((skill, index) => {
       // Calculate responsive block dimensions based on text length and screen width
-      const blockWidth = isMobile ? (skill.length * 8 + 20) : (skill.length * 10.5 + 32);
-      const blockHeight = isMobile ? 32 : 42;
-      const fontSize = isMobile ? 11 : 13;
+      const blockWidth = isMobile ? (skill.length * 6.8 + 14) : (skill.length * 10.5 + 32);
+      const blockHeight = isMobile ? 28 : 42;
+      const fontSize = isMobile ? 10 : 13;
       
       // Spawn clustered in the upper-middle region of the visible canvas width/height
       const x = (width / 4) + (Math.random() * (width / 2));
@@ -203,12 +203,16 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
 
     // If initial state is stacked, organize them immediately
     if (stackedRef.current) {
-      const numCols = 6;
+      const isMobile = window.innerWidth < 768;
+      const numCols = isMobile ? 3 : 6;
       const colWidth = width / numCols;
-      const colCounters = [0, 0, 0, 0, 0, 0];
+      const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0, 0];
       blocks.forEach((block) => {
         if (block.label && SKILL_CATEGORIES[block.label] !== undefined) {
-          const colIndex = SKILL_CATEGORIES[block.label];
+          const catIndex = SKILL_CATEGORIES[block.label];
+          const colIndex = isMobile 
+            ? (catIndex === 0 || catIndex === 4 ? 0 : catIndex === 1 || catIndex === 2 ? 1 : 2)
+            : catIndex;
           const itemIndex = colCounters[colIndex]++;
           const blockHeight = (block as any).h || 42;
           const x = colWidth * (colIndex + 0.5);
@@ -287,13 +291,17 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         // If stacked is active, recalculate positions for all blocks
         if (stackedRef.current && engineRef.current) {
           const bodies = Composite.allBodies(engineRef.current.world);
-          const numCols = 6;
+          const isMobile = window.innerWidth < 768;
+          const numCols = isMobile ? 3 : 6;
           const colWidth = w / numCols;
-          const colCounters = [0, 0, 0, 0, 0, 0];
+          const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0, 0];
 
           bodies.forEach((body) => {
             if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
-              const colIndex = SKILL_CATEGORIES[body.label];
+              const catIndex = SKILL_CATEGORIES[body.label];
+              const colIndex = isMobile 
+                ? (catIndex === 0 || catIndex === 4 ? 0 : catIndex === 1 || catIndex === 2 ? 1 : 2)
+                : catIndex;
               const itemIndex = colCounters[colIndex]++;
               const blockHeight = (body as any).h || 42;
               const x = colWidth * (colIndex + 0.5);
@@ -388,11 +396,20 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
         ctx.font = 'bold 9px "Space Mono", monospace';
         ctx.textAlign = 'center';
-        for (let col = 0; col < 6; col++) {
-          const colWidth = currentWidth / 6;
+        const isMobile = window.innerWidth < 768;
+        const numCols = isMobile ? 3 : 6;
+        const colWidth = currentWidth / numCols;
+        
+        const mobileHeaders = [
+          "LANGS & SYS",
+          "FRONT & BACK",
+          "DEVOPS & TOOLS"
+        ];
+
+        for (let col = 0; col < numCols; col++) {
           const x = colWidth * (col + 0.5);
-          // Draw at y = 30 (above the stacks)
-          ctx.fillText(CATEGORY_NAMES[col].toUpperCase(), x, 30);
+          const headerText = isMobile ? mobileHeaders[col] : CATEGORY_NAMES[col].toUpperCase();
+          ctx.fillText(headerText, x, 30);
         }
       }
 
@@ -461,9 +478,9 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
   return (
     <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-black flex flex-col justify-between">
       {/* Simulation HUD bar */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none font-mono text-[9px] text-white/40">
+      <div className="absolute top-4 left-4 right-4 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pointer-events-none font-mono text-[9px] text-white/40">
         <span className="bg-black/80 px-2 py-1 border border-white/5 rounded">MATTER_ENGINE // ACTIVE</span>
-        <div className="flex gap-2 pointer-events-auto">
+        <div className="flex flex-col sm:flex-row gap-2 pointer-events-auto w-full sm:w-auto items-stretch sm:items-center">
           <button
             onClick={onToggleStacked}
             className={`px-3 py-1 border rounded text-[9px] font-bold transition-all ${
