@@ -406,10 +406,11 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
           "DEVOPS & TOOLS"
         ];
 
+        const headerY = isMobile ? 110 : 80;
         for (let col = 0; col < numCols; col++) {
           const x = colWidth * (col + 0.5);
           const headerText = isMobile ? mobileHeaders[col] : CATEGORY_NAMES[col].toUpperCase();
-          ctx.fillText(headerText, x, 30);
+          ctx.fillText(headerText, x, headerY);
         }
       }
 
@@ -479,7 +480,10 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-black flex flex-col justify-between">
       {/* Simulation HUD bar */}
       <div className="absolute top-4 left-4 right-4 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pointer-events-none font-mono text-[9px] text-white/40">
-        <span className="bg-black/80 px-2 py-1 border border-white/5 rounded">MATTER_ENGINE // ACTIVE</span>
+        <div className="bg-black/90 px-3 py-1.5 border border-white/10 rounded flex flex-col gap-0.5 pointer-events-auto shadow-lg">
+          <span className="font-bold text-white tracking-wider">SKILL ENGINE SANDBOX</span>
+          <span className="text-[7.5px] text-white/40 font-normal lowercase tracking-normal">feel free to drag blocks around or stack them!</span>
+        </div>
         <div className="flex flex-col sm:flex-row gap-2 pointer-events-auto w-full sm:w-auto items-stretch sm:items-center">
           <button
             onClick={onToggleStacked}
