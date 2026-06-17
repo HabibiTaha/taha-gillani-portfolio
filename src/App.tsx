@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FileText, Mail } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { FileText, Mail, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CursorTrail from './components/CursorTrail';
 import TabsContent from './components/TabsContent';
@@ -66,12 +66,51 @@ export default function App() {
   const [zeroGravity, setZeroGravity] = useState(false);
   const [stacked, setStacked] = useState(true);
   const [introCompleted, setIntroCompleted] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+  }, [theme]);
 
   return (
-    <div className={`w-full min-h-screen bg-black text-white font-mono flex flex-col overflow-x-hidden selection:bg-accent-neon/30 transition-all duration-1000 ${introCompleted ? 'overflow-y-auto' : 'overflow-y-hidden h-screen'}`}>
+    <div className={`w-full min-h-screen font-mono flex flex-col overflow-x-hidden transition-all duration-1000 ${
+      theme === 'dark'
+        ? 'bg-black text-white selection:bg-accent-neon/30'
+        : 'bg-slate-50 text-slate-900 selection:bg-cyan-200'
+    } ${introCompleted ? 'overflow-y-auto' : 'overflow-y-hidden h-screen'}`}>
       
+      {/* ─── THEME TOGGLE BUTTON ─── */}
+      {introCompleted && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="fixed top-6 right-6 z-50"
+        >
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className={`p-3 rounded-full border backdrop-blur-md transition-all duration-300 shadow-lg group flex items-center justify-center cursor-pointer ${
+              theme === 'dark'
+                ? 'border-white/10 bg-black/40 hover:bg-white/5 hover:border-white/30 text-white shadow-black/50'
+                : 'border-slate-200 bg-white/40 hover:bg-slate-100/50 hover:border-slate-300 text-slate-800 shadow-slate-200'
+            }`}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-5 h-5 text-[#FFFF00] group-hover:scale-110 transition-transform" />
+            ) : (
+              <Moon className="w-5 h-5 text-[#c026d3] group-hover:scale-110 transition-transform" />
+            )}
+          </button>
+        </motion.div>
+      )}
+
       {/* Global Mouse Ribbon Trail */}
-      <CursorTrail />
+      <CursorTrail theme={theme} />
 
       {/* ─── 1. HERO SECTION (SCROLLABLE INTRO) ─── */}
       <section className="min-h-screen w-full flex flex-col justify-center items-center py-20 px-6 md:px-12 relative border-b border-white/5">
@@ -89,7 +128,9 @@ export default function App() {
             <div className="relative group">
               {/* Cyber glowing halo border */}
               <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-300 opacity-60 blur-md group-hover:opacity-100 transition duration-500" />
-              <div className="relative w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border border-white/20 bg-black">
+              <div className={`relative w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border bg-black transition-all duration-1000 ${
+                theme === 'dark' ? 'border-white/20' : 'border-slate-200'
+              }`}>
                 <img
                   src="/taha.jpg"
                   alt="Taha Gillani Profile"
@@ -110,13 +151,13 @@ export default function App() {
               
               {/* Academic HUD Badges */}
               <div className="flex flex-wrap gap-2 mb-6 justify-center md:justify-start">
-                <span className="text-[10px] font-mono border border-cyan-400/30 text-cyan-400 bg-cyan-950/20 px-2.5 py-1 rounded-sm shadow-[0_0_8px_rgba(6,182,212,0.15)]">
+                <span className="text-[10px] font-mono border border-cyan-400/30 text-cyan-400 bg-cyan-950/20 px-2.5 py-1 rounded-sm shadow-[0_0_8px_rgba(6,182,212,0.15)] academic-badge cs">
                   4th-Year CS @ U of Lethbridge
                 </span>
-                <span className="text-[10px] font-mono border border-pink-500/30 text-pink-400 bg-pink-950/20 px-2.5 py-1 rounded-sm shadow-[0_0_8px_rgba(236,72,153,0.15)]">
+                <span className="text-[10px] font-mono border border-pink-500/30 text-pink-400 bg-pink-950/20 px-2.5 py-1 rounded-sm shadow-[0_0_8px_rgba(236,72,153,0.15)] academic-badge gpa">
                   GPA: 3.8
                 </span>
-                <span className="text-[10px] font-mono border border-yellow-500/30 text-yellow-400 bg-yellow-950/20 px-2.5 py-1 rounded-sm shadow-[0_0_8px_rgba(234,179,8,0.15)]">
+                <span className="text-[10px] font-mono border border-yellow-500/30 text-yellow-400 bg-yellow-950/20 px-2.5 py-1 rounded-sm shadow-[0_0_8px_rgba(234,179,8,0.15)] academic-badge grad">
                   ULeth (2027)
                 </span>
               </div>
@@ -133,7 +174,7 @@ export default function App() {
                   href="https://github.com/HabibiTaha"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-white/40 hover:text-[#00FFFF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FFFF] p-2 rounded-lg border border-white/5 hover:border-[#00FFFF]/30 bg-white/2"
+                  className="social-link github text-white/40 hover:text-[#00FFFF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FFFF] p-2 rounded-lg border border-white/5 hover:border-[#00FFFF]/30 bg-white/2"
                   title="View GitHub Profile"
                 >
                   <GithubIcon />
@@ -143,7 +184,7 @@ export default function App() {
                   href="https://www.linkedin.com/in/taha-gillani/"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-white/40 hover:text-[#FF00FF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF00FF] p-2 rounded-lg border border-white/5 hover:border-[#FF00FF]/30 bg-white/2"
+                  className="social-link linkedin text-white/40 hover:text-[#FF00FF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF00FF] p-2 rounded-lg border border-white/5 hover:border-[#FF00FF]/30 bg-white/2"
                   title="Connect on LinkedIn"
                 >
                   <LinkedinIcon />
@@ -153,7 +194,7 @@ export default function App() {
                   href="https://www.instagram.com/not_gillani/"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-white/40 hover:text-[#FFFF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FFFF00] p-2 rounded-lg border border-white/5 hover:border-[#FFFF00]/30 bg-white/2"
+                  className="social-link instagram text-white/40 hover:text-[#FFFF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FFFF00] p-2 rounded-lg border border-white/5 hover:border-[#FFFF00]/30 bg-white/2"
                   title="Follow on Instagram"
                 >
                   <InstagramIcon />
@@ -161,7 +202,7 @@ export default function App() {
 
                 <a
                   href="mailto:taha.gillani@uleth.ca"
-                  className="text-white/40 hover:text-[#FF6B35] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF6B35] p-2 rounded-lg border border-white/5 hover:border-[#FF6B35]/30 bg-white/2"
+                  className="social-link email text-white/40 hover:text-[#FF6B35] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF6B35] p-2 rounded-lg border border-white/5 hover:border-[#FF6B35]/30 bg-white/2"
                   title="Send Email"
                 >
                   <Mail size={22} strokeWidth={1.8} />
@@ -170,7 +211,7 @@ export default function App() {
                 <a
                   href="/TAHA_GILLANI_RESUME.pdf"
                   download
-                  className="text-white/40 hover:text-[#00FF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FF00] p-2 rounded-lg border border-white/5 hover:border-[#00FF00]/30 bg-white/2"
+                  className="social-link resume text-white/40 hover:text-[#00FF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FF00] p-2 rounded-lg border border-white/5 hover:border-[#00FF00]/30 bg-white/2"
                   title="Download Resume PDF"
                 >
                   <FileText size={22} strokeWidth={1.8} />
@@ -206,7 +247,9 @@ export default function App() {
       </section>
 
       {/* ─── 3. PHYSICS SKILLS CANVAS (BOTTOM) ─── */}
-      <section className={`w-full flex flex-col border-b border-white/5 bg-black h-[80vh] min-h-[700px] relative transition-all duration-1000 ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <section className={`w-full flex flex-col border-b h-[80vh] min-h-[700px] relative transition-all duration-1000 ${
+        theme === 'dark' ? 'border-white/5 bg-black' : 'border-slate-200 bg-slate-50'
+      } ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
 
 
         {/* Matter.js simulation container */}
@@ -216,12 +259,17 @@ export default function App() {
             onToggleGravity={() => setZeroGravity(!zeroGravity)}
             stacked={stacked}
             onToggleStacked={() => setStacked(!stacked)}
+            theme={theme}
           />
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`w-full py-8 text-center text-[9px] text-white/20 font-mono border-t border-white/5 bg-black transition-all duration-1000 ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <footer className={`w-full py-8 text-center text-[9px] font-mono border-t transition-all duration-1000 ${
+        theme === 'dark'
+          ? 'text-white/20 border-white/5 bg-black'
+          : 'text-slate-500 border-slate-200 bg-slate-50'
+      } ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <span>© 2026 Syed Taha Gillani. All rights reserved.</span>
       </footer>
 

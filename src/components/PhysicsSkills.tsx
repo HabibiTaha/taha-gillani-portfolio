@@ -32,14 +32,20 @@ interface PhysicsSkillsProps {
   onToggleGravity: () => void;
   stacked: boolean;
   onToggleStacked: () => void;
+  theme: 'dark' | 'light';
 }
 
-export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, onToggleStacked }: PhysicsSkillsProps) {
+export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, onToggleStacked, theme }: PhysicsSkillsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<Engine | null>(null);
   const zeroGravityRef = useRef(zeroGravity);
   const stackedRef = useRef(stacked);
+  const themeRef = useRef(theme);
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
   
   // Track bounds inside refs to keep them updated for the render loop
   const dimensionsRef = useRef({ width: 800, height: 400 });
@@ -370,12 +376,12 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         }
       });
 
-      // Clear to pitch black
-      ctx.fillStyle = '#000000';
+      // Clear canvas based on theme
+      ctx.fillStyle = themeRef.current === 'dark' ? '#000000' : '#f8fafc';
       ctx.fillRect(0, 0, currentWidth, currentHeight);
 
       // Render subtle background grid
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.015)';
+      ctx.strokeStyle = themeRef.current === 'dark' ? 'rgba(255, 255, 255, 0.015)' : 'rgba(15, 23, 42, 0.025)';
       ctx.lineWidth = 1;
       const grid = 40;
       for (let xPos = 0; xPos < currentWidth; xPos += grid) {
@@ -393,7 +399,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
 
       // Draw category headers if stacked
       if (stackedRef.current) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.fillStyle = themeRef.current === 'dark' ? 'rgba(255, 255, 255, 0.35)' : 'rgba(15, 23, 42, 0.45)';
         ctx.font = 'bold 9px "Space Mono", monospace';
         ctx.textAlign = 'center';
         const isMobile = window.innerWidth < 768;
@@ -419,7 +425,17 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         const w = (block as any).w;
         const h = (block as any).h;
         const fontSize = (block as any).fontSize || 12;
-        const color = (block as any).color;
+        const baseColor = (block as any).color;
+        const currentTheme = themeRef.current;
+
+        // Map neon colors to high-contrast equivalents in light mode
+        let color = baseColor;
+        if (currentTheme === 'light') {
+          if (baseColor === '#00FFFF') color = '#0891b2'; // Cyan -> Cyan-600
+          else if (baseColor === '#FF00FF') color = '#c026d3'; // Magenta -> Fuchsia-600
+          else if (baseColor === '#FFFF00') color = '#b45309'; // Yellow -> Amber-700
+          else if (baseColor === '#00FF00') color = '#16a34a'; // Neon Green -> Green-600
+        }
 
         ctx.save();
         ctx.translate(block.position.x, block.position.y);
@@ -433,24 +449,24 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
            mouse.position.y <= block.bounds.max.y);
 
         if (isHovered) {
-          // Hover fill state: solid cyber color background, black text
+          // Hover fill state: solid color background, black text (dark mode) or white text (light mode)
           ctx.shadowBlur = 15;
           ctx.shadowColor = color;
           ctx.fillStyle = color;
           ctx.fillRect(-w / 2, -h / 2, w, h);
           
-          ctx.fillStyle = '#000000';
+          ctx.fillStyle = currentTheme === 'dark' ? '#000000' : '#ffffff';
           ctx.font = `bold ${fontSize + 1}px "Space Mono", monospace`;
         } else {
-          // Normal state: translucent dark background, cyber color border, cyber color text
-          ctx.fillStyle = 'rgba(10, 10, 10, 0.85)';
+          // Normal state: translucent background, color border, color text
+          ctx.fillStyle = currentTheme === 'dark' ? 'rgba(10, 10, 10, 0.85)' : 'rgba(255, 255, 255, 0.9)';
           ctx.fillRect(-w / 2, -h / 2, w, h);
 
           ctx.strokeStyle = color;
           ctx.lineWidth = 1.8;
           ctx.strokeRect(-w / 2, -h / 2, w, h);
 
-          ctx.fillStyle = color; // colored text instead of white!
+          ctx.fillStyle = color;
           ctx.font = `bold ${fontSize}px "Space Mono", monospace`;
         }
 
@@ -477,30 +493,46 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-black flex flex-col justify-between">
+    <div ref={containerRef} className={`w-full h-full relative overflow-hidden flex flex-col justify-between ${
+      theme === 'dark' ? 'bg-black' : 'bg-slate-50'
+    }`}>
       {/* Simulation HUD bar */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pointer-events-none font-mono text-[9px] text-white/40">
-        <div className="bg-black/90 px-3 py-1.5 border border-white/10 rounded flex flex-col gap-0.5 pointer-events-auto shadow-lg">
-          <span className="font-bold text-white tracking-wider">SKILL ENGINE SANDBOX</span>
-          <span className="text-[7.5px] text-white/40 font-normal lowercase tracking-normal">feel free to drag blocks around or stack them!</span>
+      <div className={`absolute top-4 left-4 right-4 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pointer-events-none font-mono text-[9px] ${
+        theme === 'dark' ? 'text-white/40' : 'text-slate-500'
+      }`}>
+        <div className={`px-3 py-1.5 border rounded flex flex-col gap-0.5 pointer-events-auto shadow-lg ${
+          theme === 'dark' ? 'bg-black/90 border-white/10 text-white' : 'bg-white/95 border-slate-200 text-slate-900'
+        }`}>
+          <span className={`font-bold tracking-wider ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>SKILL ENGINE SANDBOX</span>
+          <span className={`text-[7.5px] font-normal lowercase tracking-normal ${
+            theme === 'dark' ? 'text-white/40' : 'text-slate-500'
+          }`}>feel free to drag blocks around or stack them!</span>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 pointer-events-auto w-full sm:w-auto items-stretch sm:items-center">
           <button
             onClick={onToggleStacked}
-            className={`px-3 py-1 border rounded text-[9px] font-bold transition-all ${
+            className={`px-3 py-1 border rounded text-[9px] font-bold transition-all cursor-pointer ${
               stacked
-                ? 'bg-[#00FFFF] border-[#00FFFF] text-black shadow-[0_0_12px_rgba(0,255,255,0.4)]'
-                : 'bg-black/80 border-white/20 hover:border-white hover:bg-white/5 text-white'
+                ? theme === 'dark'
+                  ? 'bg-[#00FFFF] border-[#00FFFF] text-black shadow-[0_0_12px_rgba(0,255,255,0.4)]'
+                  : 'bg-[#0891b2] border-[#0891b2] text-white shadow-[0_0_12px_rgba(8,145,178,0.4)]'
+                : theme === 'dark'
+                  ? 'bg-black/80 border-white/20 hover:border-white hover:bg-white/5 text-white'
+                  : 'bg-white/90 border-slate-200 hover:border-slate-400 hover:bg-slate-100 text-slate-700'
             }`}
           >
             {stacked ? 'GRID STACK: ON' : 'STACK NEATLY'}
           </button>
           <button
             onClick={onToggleGravity}
-            className={`px-3 py-1 border rounded text-[9px] font-bold transition-all ${
+            className={`px-3 py-1 border rounded text-[9px] font-bold transition-all cursor-pointer ${
               zeroGravity
-                ? 'bg-white border-white text-black shadow-[0_0_12px_rgba(255,255,255,0.4)]'
-                : 'bg-black/80 border-white/20 hover:border-white hover:bg-white/5 text-white'
+                ? theme === 'dark'
+                  ? 'bg-white border-white text-black shadow-[0_0_12px_rgba(255,255,255,0.4)]'
+                  : 'bg-slate-900 border-slate-900 text-white shadow-[0_0_12px_rgba(15,23,42,0.2)]'
+                : theme === 'dark'
+                  ? 'bg-black/80 border-white/20 hover:border-white hover:bg-white/5 text-white'
+                  : 'bg-white/90 border-slate-200 hover:border-slate-400 hover:bg-slate-100 text-slate-700'
             }`}
           >
             {zeroGravity ? 'ZERO GRAVITY: ON' : 'ZERO GRAVITY: OFF'}

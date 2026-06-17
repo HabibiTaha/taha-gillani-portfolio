@@ -8,12 +8,22 @@ interface Point {
 }
 
 const NEON_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Magenta, Yellow, Neon Green
+const LIGHT_COLORS = ['#0891b2', '#c026d3', '#b45309', '#16a34a']; // Cyan-600, Fuchsia-600, Amber-700, Green-600
 
-export default function CursorTrail() {
+interface CursorTrailProps {
+  theme: 'dark' | 'light';
+}
+
+export default function CursorTrail({ theme }: CursorTrailProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointsRef = useRef<Point[]>([]);
   const mouseRef = useRef({ x: 0, y: 0, moving: false });
   const colorIndexRef = useRef(0);
+  const themeRef = useRef(theme);
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     // Disable cursor trail on mobile viewports for performance
@@ -40,9 +50,10 @@ export default function CursorTrail() {
       mouseRef.current.moving = true;
 
       // Color cycling
-      colorIndexRef.current = (colorIndexRef.current + 0.1) % NEON_COLORS.length;
-      const color1 = NEON_COLORS[Math.floor(colorIndexRef.current)];
-      const color2 = NEON_COLORS[(Math.floor(colorIndexRef.current) + 1) % NEON_COLORS.length];
+      const colors = themeRef.current === 'dark' ? NEON_COLORS : LIGHT_COLORS;
+      colorIndexRef.current = (colorIndexRef.current + 0.1) % colors.length;
+      const color1 = colors[Math.floor(colorIndexRef.current)];
+      const color2 = colors[(Math.floor(colorIndexRef.current) + 1) % colors.length];
       
       // Interpolate colors for smooth transitions
       const ratio = colorIndexRef.current % 1;
@@ -120,7 +131,7 @@ export default function CursorTrail() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-[9999] hidden md:block"
-      style={{ mixBlendMode: 'screen' }}
+      style={{ mixBlendMode: theme === 'dark' ? 'screen' : 'multiply' }}
     />
   );
 }

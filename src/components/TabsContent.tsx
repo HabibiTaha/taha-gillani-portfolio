@@ -151,7 +151,7 @@ export default function TabsContent() {
           return (
             <div
               key={item.id}
-              className="border border-white/5 rounded-xl bg-studio-900/40 overflow-hidden transition-all duration-300"
+              className="border border-white/5 rounded-xl bg-studio-900/40 overflow-hidden transition-all duration-300 accordion-panel"
               style={{
                 borderColor: isOpen ? `${item.color}40` : 'rgba(255, 255, 255, 0.05)',
                 boxShadow: isOpen ? `0 0 15px ${item.color}10` : 'none'
