@@ -165,7 +165,7 @@ export default function App() {
               <p className="text-xs md:text-sm text-white/50 leading-relaxed max-w-2xl mb-8 font-sans text-left">
                 Beyond the code, I'm a developer driven by curiosity, problem-solving, and a love for building things that work. 
                 When I'm not coding full-stack applications or designing systems, you can usually find me playing sports, diving into video games, or exploring the latest in technology and finance. 
-                I enjoy blending logical engineering with active and creative pursuits. If you are a recruiter, please don't hesitate to reach out. I would love to connect to discuss new experiences and learning opportunities!
+                I enjoy blending logical engineering with active and creative pursuits. I am actively seeking co-op and internship opportunities for the 2026–2027 terms. If you are a recruiter, please don't hesitate to reach out. I would love to connect to discuss new experiences and learning opportunities!
               </p>
 
               {/* Clickable Brand & Action Icon Links */}
