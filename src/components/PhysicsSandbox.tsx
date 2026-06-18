@@ -42,7 +42,7 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
 
     const skills = [
       "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
-      "REST APIs", "Game Physics", "Collision Detection", "SAP", 
+      "REST APIs", "Game Physics", "DynamoDB", "SAP", 
       "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
       "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
       "Express", "Django", "AI/ML", "C", "Prompting", "PowerApps", 
@@ -72,11 +72,61 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
 
     Composite.add(engine.world, blocks);
 
-    // ── 4. ATTACH MOUSE CONSTRAINT ──
+    // ── 4. ATTACH MOUSE CONSTRAINT (WITH DYNAMIC TOUCH & SCROLL SUPPORT) ──
+    const getTouchPos = (e: TouchEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      if (e.touches.length === 0) return { x: 0, y: 0 };
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    };
+
+    let touchDragging = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const pos = getTouchPos(e);
+      const bodies = Composite.allBodies(engine.world).filter(b => !b.isStatic);
+      const hit = bodies.some(body => {
+        return pos.x >= body.bounds.min.x &&
+               pos.x <= body.bounds.max.x &&
+               pos.y >= body.bounds.min.y &&
+               pos.y <= body.bounds.max.y;
+      });
+
+      if (hit) {
+        touchDragging = true;
+        canvas.style.touchAction = 'none';
+      } else {
+        touchDragging = false;
+        canvas.style.touchAction = 'pan-y';
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!touchDragging) {
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const handleTouchEnd = () => {
+      touchDragging = false;
+      canvas.style.touchAction = 'pan-y';
+    };
+
+    canvas.addEventListener('touchstart', handleTouchStart, { capture: true, passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
+
     const mouse = Mouse.create(canvas);
-    // Remove Matter's default wheel listeners so the page can scroll when hovering over the canvas
+    // Set default touchAction to allow trackpad/mobile scrolling on empty space
+    canvas.style.touchAction = 'pan-y';
+
+    // Remove Matter's default wheel and touch event capture listeners that block scrolling
     canvas.removeEventListener('mousewheel', (mouse as any).mousewheel);
     canvas.removeEventListener('DOMMouseScroll', (mouse as any).mousewheel);
+    canvas.removeEventListener('wheel', (mouse as any).mousewheel);
 
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,

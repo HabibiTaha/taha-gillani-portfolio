@@ -142,7 +142,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
   };
 
   return (
-    <h1 className={`text-3xl md:text-5xl lg:text-7xl font-bold tracking-tight uppercase leading-[1.15] text-white mb-4 ${className || ''}`}>
+    <h1 className={`text-3xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight uppercase leading-[1.15] text-white mb-4 lg:mb-6 ${className || ''}`}>
       <span className="block min-h-[1.2em]">
         {renderLine(line1Chars, l1, activeLine === 1)}
       </span>

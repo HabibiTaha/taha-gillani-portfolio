@@ -120,15 +120,15 @@ export default function App() {
 
         <motion.div
           layout
-          className={`max-w-5xl w-full flex flex-col md:flex-row items-center md:items-start z-10 transition-all duration-1000 ${introCompleted ? 'gap-8 md:gap-16' : 'gap-0'}`}
+          className={`max-w-6xl xl:max-w-7xl w-full flex flex-col md:flex-row items-center md:items-start z-10 transition-all duration-1000 ${introCompleted ? 'gap-8 md:gap-16 xl:gap-20' : 'gap-0'}`}
         >
           
           {/* Circular profile image container */}
-          <div className={`transition-all duration-1000 ease-out ${introCompleted ? 'scale-100 opacity-100 w-32 h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 mr-0' : 'scale-0 opacity-0 w-0 h-0 overflow-hidden pointer-events-none'}`}>
+          <div className={`transition-all duration-1000 ease-out ${introCompleted ? 'scale-100 opacity-100 w-32 h-32 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 mr-0' : 'scale-0 opacity-0 w-0 h-0 overflow-hidden pointer-events-none'}`}>
             <div className="relative group">
               {/* Cyber glowing halo border */}
               <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-300 opacity-60 blur-md group-hover:opacity-100 transition duration-500" />
-              <div className={`relative w-32 h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 rounded-full overflow-hidden border bg-black transition-all duration-1000 ${
+              <div className={`relative w-32 h-32 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border bg-black transition-all duration-1000 ${
                 theme === 'dark' ? 'border-white/20' : 'border-slate-200'
               }`}>
                 <img
@@ -139,91 +139,91 @@ export default function App() {
               </div>
             </div>
           </div>
-
+ 
           {/* Intro typography */}
           <div className={`flex-1 flex flex-col justify-between h-full transition-all duration-1000 ${introCompleted ? 'text-center md:text-left' : 'text-center'}`}>
-
+ 
             
             <TypewriterIntro onComplete={() => setIntroCompleted(true)} className={introCompleted ? 'text-center md:text-left' : 'text-center'} />
-
+ 
             {/* Academic & Professional HUD Badges, bio, and social links */}
             <div className={`transition-all duration-1000 delay-300 ${introCompleted ? 'opacity-100 translate-y-0 h-auto mt-6' : 'opacity-0 translate-y-4 pointer-events-none h-0 overflow-hidden'}`}>
               
               {/* Academic HUD Badges */}
-              <div className="flex flex-wrap gap-3 mb-6 justify-center md:justify-start">
-                <span className="text-[10px] md:text-xs font-mono border border-cyan-400/30 text-cyan-400 bg-cyan-950/20 px-3 py-1.5 rounded-sm shadow-[0_0_8px_rgba(6,182,212,0.15)] academic-badge cs">
+              <div className="flex flex-wrap gap-3 md:gap-4 lg:gap-5 mb-8 justify-center md:justify-start">
+                <span className="text-[10px] md:text-xs lg:text-sm xl:text-base font-mono border border-cyan-400/30 text-cyan-400 bg-cyan-950/20 px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2.5 rounded-md shadow-[0_0_8px_rgba(6,182,212,0.15)] academic-badge cs">
                   4th-Year CS @ U of Lethbridge
                 </span>
-                <span className="text-[10px] md:text-xs font-mono border border-pink-500/30 text-pink-400 bg-pink-950/20 px-3 py-1.5 rounded-sm shadow-[0_0_8px_rgba(236,72,153,0.15)] academic-badge gpa">
+                <span className="text-[10px] md:text-xs lg:text-sm xl:text-base font-mono border border-pink-500/30 text-pink-400 bg-pink-950/20 px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2.5 rounded-md shadow-[0_0_8px_rgba(236,72,153,0.15)] academic-badge gpa">
                   GPA: 3.8
                 </span>
-                <span className="text-[10px] md:text-xs font-mono border border-yellow-500/30 text-yellow-400 bg-yellow-950/20 px-3 py-1.5 rounded-sm shadow-[0_0_8px_rgba(234,179,8,0.15)] academic-badge grad">
+                <span className="text-[10px] md:text-xs lg:text-sm xl:text-base font-mono border border-yellow-500/30 text-yellow-400 bg-yellow-950/20 px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2.5 rounded-md shadow-[0_0_8px_rgba(234,179,8,0.15)] academic-badge grad">
                   ULeth (2027)
                 </span>
               </div>
-
-              <p className="text-xs md:text-base lg:text-[17px] text-white/50 leading-relaxed max-w-3xl mb-8 font-sans text-left">
+ 
+              <p className="text-xs md:text-base lg:text-lg xl:text-xl text-white/50 leading-relaxed lg:leading-loose max-w-4xl mb-10 font-sans text-left">
                 Beyond the code, I'm a developer driven by curiosity, problem-solving, and a love for building things that work. 
                 When I'm not coding full-stack applications or designing systems, you can usually find me playing sports, diving into video games, or exploring the latest in technology and finance. 
                 I enjoy blending logical engineering with active and creative pursuits. I am actively seeking co-op and internship opportunities for the 2026–2027 terms. If you are a recruiter, please don't hesitate to reach out. I would love to connect to discuss new experiences and learning opportunities!
               </p>
-
+ 
               {/* Clickable Brand & Action Icon Links */}
-              <div className="flex justify-center md:justify-start items-center gap-6">
+              <div className="flex justify-center md:justify-start items-center gap-6 md:gap-8 lg:gap-10">
                 <a
                   href="https://github.com/HabibiTaha"
                   target="_blank"
                   rel="noreferrer"
-                  className="social-link github text-white/40 hover:text-[#00FFFF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FFFF] p-2.5 rounded-lg border border-white/5 hover:border-[#00FFFF]/30 bg-white/2"
+                  className="social-link github text-white/40 hover:text-[#00FFFF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FFFF] p-2.5 md:p-3.5 lg:p-4 rounded-xl border border-white/5 hover:border-[#00FFFF]/30 bg-white/2"
                   title="View GitHub Profile"
                 >
-                  <GithubIcon />
+                  <GithubIcon className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
                 </a>
-
+ 
                 <a
                   href="https://www.linkedin.com/in/taha-gillani/"
                   target="_blank"
                   rel="noreferrer"
-                  className="social-link linkedin text-white/40 hover:text-[#FF00FF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF00FF] p-2.5 rounded-lg border border-white/5 hover:border-[#FF00FF]/30 bg-white/2"
+                  className="social-link linkedin text-white/40 hover:text-[#FF00FF] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF00FF] p-2.5 md:p-3.5 lg:p-4 rounded-xl border border-white/5 hover:border-[#FF00FF]/30 bg-white/2"
                   title="Connect on LinkedIn"
                 >
-                  <LinkedinIcon />
+                  <LinkedinIcon className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
                 </a>
-
+ 
                 <a
                   href="https://www.instagram.com/not_gillani/"
                   target="_blank"
                   rel="noreferrer"
-                  className="social-link instagram text-white/40 hover:text-[#FFFF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FFFF00] p-2.5 rounded-lg border border-white/5 hover:border-[#FFFF00]/30 bg-white/2"
+                  className="social-link instagram text-white/40 hover:text-[#FFFF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FFFF00] p-2.5 md:p-3.5 lg:p-4 rounded-xl border border-white/5 hover:border-[#FFFF00]/30 bg-white/2"
                   title="Follow on Instagram"
                 >
-                  <InstagramIcon />
+                  <InstagramIcon className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
                 </a>
-
+ 
                 <a
                   href="mailto:taha.gillani@uleth.ca"
-                  className="social-link email text-white/40 hover:text-[#FF6B35] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF6B35] p-2.5 rounded-lg border border-white/5 hover:border-[#FF6B35]/30 bg-white/2"
+                  className="social-link email text-white/40 hover:text-[#FF6B35] transition-all hover:scale-115 hover:shadow-[0_0_15px_#FF6B35] p-2.5 md:p-3.5 lg:p-4 rounded-xl border border-white/5 hover:border-[#FF6B35]/30 bg-white/2"
                   title="Send Email"
                 >
-                  <Mail size={24} strokeWidth={1.8} />
+                  <Mail className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" strokeWidth={1.8} />
                 </a>
-
+ 
                 <a
                   href="/TAHA_GILLANI_RESUME.pdf"
                   download
-                  className="social-link resume text-white/40 hover:text-[#00FF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FF00] p-2.5 rounded-lg border border-white/5 hover:border-[#00FF00]/30 bg-white/2"
+                  className="social-link resume text-white/40 hover:text-[#00FF00] transition-all hover:scale-115 hover:shadow-[0_0_15px_#00FF00] p-2.5 md:p-3.5 lg:p-4 rounded-xl border border-white/5 hover:border-[#00FF00]/30 bg-white/2"
                   title="Download Resume PDF"
                 >
-                  <FileText size={24} strokeWidth={1.8} />
+                  <FileText className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" strokeWidth={1.8} />
                 </a>
               </div>
-
+ 
             </div>
           </div>
         </motion.div>
-
+ 
         {/* Scroll Indicator */}
-        <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[9px] text-white/30 tracking-[0.2em] font-mono animate-bounce uppercase transition-all duration-1000 delay-700 ${introCompleted ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'}`}>
+        <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[9px] md:text-[10px] text-white/30 tracking-[0.2em] font-mono animate-bounce uppercase transition-all duration-1000 delay-700 ${introCompleted ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'}`}>
           <span>Scroll Down</span>
           <span>↓</span>
         </div>
@@ -232,7 +232,7 @@ export default function App() {
 
       {/* ─── 2. TABBED CONTENT SECTION (MIDDLE) ─── */}
       <section className={`w-full py-24 px-6 md:px-24 lg:px-32 border-b border-white/5 bg-studio-900/10 transition-all duration-1000 ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="max-w-5xl mx-auto flex flex-col items-center">
+        <div className="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto flex flex-col items-center">
 
           <div className="w-full text-left">
             <TabsContent />

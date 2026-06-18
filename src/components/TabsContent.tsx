@@ -131,15 +131,15 @@ export default function TabsContent() {
   const items = activeTab === 'experience' ? EXPERIENCE_ITEMS : PROJECT_ITEMS;
 
   return (
-    <div className="w-full max-w-4xl mx-auto font-mono select-none">
+    <div className="w-full max-w-5xl mx-auto font-mono select-none">
       {/* ─── TAB TOGGLE HEADER ─── */}
-      <div className="flex justify-center gap-6 mb-8 border-b border-white/10 pb-4">
+      <div className="flex justify-center gap-8 mb-10 border-b border-white/10 pb-5">
         <button
           onClick={() => {
             setActiveTab('experience');
             setExpandedId(null);
           }}
-          className={`text-xs md:text-sm lg:text-base font-bold tracking-widest transition-all pb-2 relative uppercase ${
+          className={`text-xs md:text-sm lg:text-base xl:text-lg font-bold tracking-widest transition-all pb-2.5 relative uppercase ${
             activeTab === 'experience' ? 'text-white' : 'text-white/40 hover:text-white'
           }`}
         >
@@ -157,7 +157,7 @@ export default function TabsContent() {
             setActiveTab('projects');
             setExpandedId(null);
           }}
-          className={`text-xs md:text-sm lg:text-base font-bold tracking-widest transition-all pb-2 relative uppercase ${
+          className={`text-xs md:text-sm lg:text-base xl:text-lg font-bold tracking-widest transition-all pb-2.5 relative uppercase ${
             activeTab === 'projects' ? 'text-white' : 'text-white/40 hover:text-white'
           }`}
         >
@@ -172,7 +172,7 @@ export default function TabsContent() {
       </div>
 
       {/* ─── ACCORDION CONTAINER ─── */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 md:gap-5 lg:gap-6">
         {items.map((item) => {
           const isOpen = expandedId === item.id;
           return (
@@ -187,24 +187,24 @@ export default function TabsContent() {
               {/* Row Header Trigger */}
               <button
                 onClick={() => toggleExpand(item.id)}
-                className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
+                className="w-full text-left px-6 py-5 md:px-8 md:py-6 flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   {item.logo ? (
                     <div 
-                      className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center p-1 border border-white/10 shadow-sm"
+                      className="w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center p-1 border border-white/10 shadow-sm"
                       style={{ backgroundColor: item.logoBg || '#ffffff' }}
                     >
                       <img src={item.logo} alt={`${item.title} logo`} className="w-full h-full object-contain" />
                     </div>
                   ) : activeTab === 'experience' ? (
-                    <Briefcase size={14} style={{ color: item.color }} />
+                    <Briefcase className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" style={{ color: item.color }} />
                   ) : (
-                    <Code size={14} style={{ color: item.color }} />
+                    <Code className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" style={{ color: item.color }} />
                   )}
                   <div>
-                    <h3 className="text-xs md:text-sm lg:text-base font-bold text-white uppercase tracking-wider">{item.title}</h3>
-                    <span className="text-[10px] md:text-xs text-white/40 mt-0.5 block">{item.subtitle}</span>
+                    <h3 className="text-xs md:text-sm lg:text-base xl:text-lg font-bold text-white uppercase tracking-wider">{item.title}</h3>
+                    <span className="text-[10px] md:text-xs lg:text-sm xl:text-base text-white/40 mt-1 block">{item.subtitle}</span>
                   </div>
                 </div>
 
@@ -213,7 +213,7 @@ export default function TabsContent() {
                   transition={{ duration: 0.2 }}
                   className="text-white/40"
                 >
-                  <ChevronDown size={18} />
+                  <ChevronDown className="w-5 h-5 md:w-6 md:h-6" />
                 </motion.div>
               </button>
 
@@ -228,14 +228,14 @@ export default function TabsContent() {
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6 pt-3 border-t border-white/5 flex flex-col gap-4">
+                    <div className="px-6 pb-6 pt-3 md:px-8 md:pb-8 border-t border-white/5 flex flex-col gap-5">
                       {/* Tech stack badges */}
                       {item.tech && (
-                        <div className="flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-2">
                           {item.tech.map((t) => (
                             <span
                               key={t}
-                              className="text-[9px] md:text-xs px-2.5 py-1 rounded-sm border"
+                              className="text-[9px] md:text-xs lg:text-sm px-2.5 py-1 md:px-3 md:py-1.5 rounded-md border"
                               style={{
                                 color: item.color,
                                 borderColor: `${item.color}30`,
@@ -249,10 +249,10 @@ export default function TabsContent() {
                       )}
 
                       {/* Technical bullets */}
-                      <ul className="flex flex-col gap-2.5">
+                      <ul className="flex flex-col gap-3">
                         {item.bullets.map((b, idx) => (
-                          <li key={idx} className="flex gap-2.5 text-[11px] md:text-sm leading-relaxed text-white/70 font-sans">
-                            <Circle size={5} className="mt-1.5 md:mt-2 flex-shrink-0" style={{ fill: item.color, color: item.color }} />
+                          <li key={idx} className="flex gap-3 text-[11px] md:text-sm lg:text-base xl:text-[17px] leading-relaxed lg:leading-loose text-white/70 font-sans">
+                            <Circle className="mt-2 flex-shrink-0 w-1.5 h-1.5 md:w-2 md:h-2" style={{ fill: item.color, color: item.color }} />
                             <span>{b}</span>
                           </li>
                         ))}
@@ -266,9 +266,9 @@ export default function TabsContent() {
                               href={item.github}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex items-center gap-2 font-mono text-[10px] md:text-xs px-4 py-2 rounded-sm border border-white/10 bg-white/2 text-white/60 hover:text-[#00FFFF] hover:border-[#00FFFF]/30 hover:bg-[#00FFFF]/5 transition-all cursor-pointer social-link github"
+                              className="flex items-center gap-2.5 font-mono text-[10px] md:text-xs lg:text-sm px-4 py-2 md:px-5 md:py-2.5 rounded-md border border-white/10 bg-white/2 text-white/60 hover:text-[#00FFFF] hover:border-[#00FFFF]/30 hover:bg-[#00FFFF]/5 transition-all cursor-pointer social-link github"
                             >
-                              <GithubIcon className="flex-shrink-0" />
+                              <GithubIcon className="flex-shrink-0 w-4 h-4 md:w-5 md:h-5" />
                               <span>Check it out on GitHub</span>
                               <span>↗</span>
                             </a>
@@ -278,7 +278,7 @@ export default function TabsContent() {
                               href={item.live}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex items-center gap-1.5 font-mono text-[10px] md:text-xs px-4 py-2 rounded-sm border border-white/10 bg-white/2 text-white/60 hover:text-[#00FF00] hover:border-[#00FF00]/30 hover:bg-[#00FF00]/5 transition-all cursor-pointer social-link resume"
+                              className="flex items-center gap-2 font-mono text-[10px] md:text-xs lg:text-sm px-4 py-2 md:px-5 md:py-2.5 rounded-md border border-white/10 bg-white/2 text-white/60 hover:text-[#00FF00] hover:border-[#00FF00]/30 hover:bg-[#00FF00]/5 transition-all cursor-pointer social-link resume"
                             >
                               <span>Live Site</span>
                               <span>↗</span>
