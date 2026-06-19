@@ -28,6 +28,8 @@
   --animate-pulse-neon: pulseNeon 2s ease-in-out infinite;
   --animate-waveform: waveform 1.5s ease-in-out infinite;
   --animate-scan-line: scanLine 3s linear infinite;
+  --animate-gradient-flow: gradientFlow 4s linear infinite;
+  --animate-neon-pulse: neonPulse 2s ease-in-out infinite;
 
   @keyframes pulseNeon {
     0%, 100% { opacity: 1; box-shadow: 0 0 10px rgba(0, 255, 163, 0.6); }
@@ -42,6 +44,17 @@
   @keyframes scanLine {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(100vw); }
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes neonPulse {
+    0%, 100% { text-shadow: 0 0 5px rgba(168, 85, 247, 0.35), 0 0 15px rgba(168, 85, 247, 0.15); opacity: 0.85; }
+    50% { text-shadow: 0 0 12px rgba(168, 85, 247, 0.65), 0 0 25px rgba(168, 85, 247, 0.3); opacity: 1; }
   }
 }
 

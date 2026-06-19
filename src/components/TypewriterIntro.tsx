@@ -41,7 +41,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
     ...line2PartB.split("").map((char, idx) => ({
       char,
       id: `l2-b-${idx}`,
-      className: "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-300 font-extrabold"
+      className: "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-300 font-extrabold bg-[size:200%_auto] animate-gradient-flow"
     })),
     ...line2PartC.split("").map((char, idx) => ({ char, id: `l2-c-${idx}` })),
   ];
@@ -143,7 +143,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
 
   return (
     <div className={`flex flex-col mb-4 lg:mb-6 ${className || ''}`}>
-      <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight uppercase leading-[1.15] text-white">
+      <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight uppercase leading-[1.15] text-white">
         <span className="block min-h-[1.2em]">
           {renderLine(line1Chars, l1, activeLine === 1)}
         </span>
@@ -151,7 +151,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
           {renderLine(line2Chars, l2, activeLine === 2)}
         </span>
       </h1>
-      <h2 className="text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold tracking-[0.25em] uppercase text-cyan-400 min-h-[1.5em] mt-3 lg:mt-4 font-mono">
+      <h2 className="text-[11px] md:text-sm lg:text-base xl:text-[17px] font-bold tracking-[0.25em] uppercase text-violet-400/90 animate-neon-pulse min-h-[1.5em] mt-3 lg:mt-4 font-mono">
         {renderLine(line3Chars, l3, activeLine === 3)}
       </h2>
     </div>
