@@ -57,19 +57,19 @@ html {
 /* Scale up the base root font size on desktop/PC viewports to automatically scale all rem-based layouts, margins, and typography */
 @media (min-width: 1024px) {
   html {
-    font-size: 17px;
+    font-size: 16.5px;
   }
 }
 
 @media (min-width: 1280px) {
   html {
-    font-size: 19px;
+    font-size: 17px;
   }
 }
 
 @media (min-width: 1536px) {
   html {
-    font-size: 21px;
+    font-size: 17.5px;
   }
 }
 

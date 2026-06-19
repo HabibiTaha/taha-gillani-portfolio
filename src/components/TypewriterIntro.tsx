@@ -151,7 +151,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
           {renderLine(line2Chars, l2, activeLine === 2)}
         </span>
       </h1>
-      <h2 className="text-xs md:text-sm lg:text-base xl:text-lg font-bold tracking-[0.25em] uppercase text-cyan-400 min-h-[1.5em] mt-3 lg:mt-4 font-mono">
+      <h2 className="text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold tracking-[0.25em] uppercase text-cyan-400 min-h-[1.5em] mt-3 lg:mt-4 font-mono">
         {renderLine(line3Chars, l3, activeLine === 3)}
       </h2>
     </div>
