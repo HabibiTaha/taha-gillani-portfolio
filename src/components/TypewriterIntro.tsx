@@ -143,7 +143,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
 
   return (
     <div className={`flex flex-col mb-4 lg:mb-6 ${className || ''}`}>
-      <h1 className="text-3xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight uppercase leading-[1.15] text-white">
+      <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight uppercase leading-[1.15] text-white">
         <span className="block min-h-[1.2em]">
           {renderLine(line1Chars, l1, activeLine === 1)}
         </span>
@@ -151,7 +151,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
           {renderLine(line2Chars, l2, activeLine === 2)}
         </span>
       </h1>
-      <h2 className="text-sm md:text-lg lg:text-xl xl:text-2xl font-bold tracking-[0.2em] uppercase text-cyan-400 min-h-[1.5em] mt-3 lg:mt-4">
+      <h2 className="text-xs md:text-sm lg:text-base xl:text-lg font-bold tracking-[0.25em] uppercase text-cyan-400 min-h-[1.5em] mt-3 lg:mt-4 font-mono">
         {renderLine(line3Chars, l3, activeLine === 3)}
       </h2>
     </div>

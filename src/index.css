@@ -54,6 +54,25 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Scale up the base root font size on desktop/PC viewports to automatically scale all rem-based layouts, margins, and typography */
+@media (min-width: 1024px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 19px;
+  }
+}
+
+@media (min-width: 1536px) {
+  html {
+    font-size: 21px;
+  }
+}
+
 body {
   background-color: var(--color-studio-900);
   color: #E0E0E0;

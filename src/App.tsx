@@ -113,7 +113,7 @@ export default function App() {
       <CursorTrail theme={theme} />
 
       {/* ─── 1. HERO SECTION (SCROLLABLE INTRO) ─── */}
-      <section className="min-h-screen w-full flex flex-col justify-center items-center pt-20 pb-28 md:pb-36 px-6 md:px-12 relative border-b border-white/5">
+      <section className="min-h-screen w-full flex flex-col justify-center items-center py-20 px-6 md:px-12 relative border-b border-white/5">
         
         {/* Decorative Grid Lines */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-grid bg-repeat" />
@@ -223,7 +223,7 @@ export default function App() {
         </motion.div>
  
         {/* Scroll Indicator */}
-        <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[9px] md:text-[10px] text-white/30 tracking-[0.2em] font-mono animate-bounce uppercase transition-all duration-1000 delay-700 ${introCompleted ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'}`}>
+        <div className={`flex flex-col items-center gap-2 text-[9px] md:text-[10px] text-white/30 tracking-[0.2em] font-mono animate-bounce uppercase transition-all duration-1000 delay-700 mt-16 z-20 ${introCompleted ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'}`}>
           <span>Scroll Down</span>
           <span>↓</span>
         </div>
