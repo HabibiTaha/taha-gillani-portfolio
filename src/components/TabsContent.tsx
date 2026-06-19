@@ -82,7 +82,7 @@ const PROJECT_ITEMS: AccordionItem[] = [
     ],
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Matter.js', 'Vite'],
     github: 'https://github.com/HabibiTaha/taha-gillani-portfolio',
-    live: 'https://tahagillani.vercel.app'
+    live: 'https://tahagillani.ca'
   },
   {
     id: 'proj-2',
