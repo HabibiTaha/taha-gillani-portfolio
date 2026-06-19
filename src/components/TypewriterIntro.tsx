@@ -28,7 +28,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
   const line2PartA = "I'm ";
   const line2PartB = "Taha Gillani";
   const line2PartC = ".";
-  const line3Text = "Engineer | Innovator | Student";
+  const line3Text = "Engineer // Innovator // Student";
 
   // Generate arrays of characters
   const line1Chars: CharItem[] = line1Text.split("").map((char, idx) => ({
@@ -142,16 +142,18 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
   };
 
   return (
-    <h1 className={`text-3xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight uppercase leading-[1.15] text-white mb-4 lg:mb-6 ${className || ''}`}>
-      <span className="block min-h-[1.2em]">
-        {renderLine(line1Chars, l1, activeLine === 1)}
-      </span>
-      <span className="block min-h-[1.2em]">
-        {renderLine(line2Chars, l2, activeLine === 2)}
-      </span>
-      <span className="block min-h-[1.2em]">
+    <div className={`flex flex-col mb-4 lg:mb-6 ${className || ''}`}>
+      <h1 className="text-3xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight uppercase leading-[1.15] text-white">
+        <span className="block min-h-[1.2em]">
+          {renderLine(line1Chars, l1, activeLine === 1)}
+        </span>
+        <span className="block min-h-[1.2em]">
+          {renderLine(line2Chars, l2, activeLine === 2)}
+        </span>
+      </h1>
+      <h2 className="text-sm md:text-lg lg:text-xl xl:text-2xl font-bold tracking-[0.2em] uppercase text-cyan-400 min-h-[1.5em] mt-3 lg:mt-4">
         {renderLine(line3Chars, l3, activeLine === 3)}
-      </span>
-    </h1>
+      </h2>
+    </div>
   );
 }

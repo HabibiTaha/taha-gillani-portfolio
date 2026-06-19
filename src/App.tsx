@@ -113,7 +113,7 @@ export default function App() {
       <CursorTrail theme={theme} />
 
       {/* ─── 1. HERO SECTION (SCROLLABLE INTRO) ─── */}
-      <section className="min-h-screen w-full flex flex-col justify-center items-center py-20 px-6 md:px-12 relative border-b border-white/5">
+      <section className="min-h-screen w-full flex flex-col justify-center items-center pt-20 pb-28 md:pb-36 px-6 md:px-12 relative border-b border-white/5">
         
         {/* Decorative Grid Lines */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-grid bg-repeat" />
