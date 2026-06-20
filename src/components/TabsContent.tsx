@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, Briefcase, Code, Circle } from 'lucide-react';
+import MarketDashboard from '../MarketDashboard';
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -66,6 +67,21 @@ const EXPERIENCE_ITEMS: AccordionItem[] = [
 ];
 
 const PROJECT_ITEMS: AccordionItem[] = [
+  {
+    id: 'proj-aws',
+    title: 'SERVERLESS CLOUD PIPELINE (LIVE)',
+    subtitle: 'AWS Lambda / DynamoDB / API Gateway / React',
+    color: '#00FFA3', // Neon Green
+    logo: '/cloud_db_logo.png',
+    logoBg: '#000000',
+    bullets: [
+      'Architected a serverless real-time data ingestion pipeline deployed to the AWS ca-west-1 (Calgary) region.',
+      'Engineered a Python-based Lambda function triggered via EventBridge to fetch and format live cryptocurrency market data.',
+      'Exposed a secure REST API via AWS API Gateway to query DynamoDB and serve telemetry directly to the frontend interface.'
+    ],
+    tech: ['Python', 'AWS', 'Serverless', 'REST API', 'DynamoDB'],
+    github: 'https://github.com/HabibiTaha'
+  },
   {
     id: 'proj-1',
     title: 'Interactive Physics-Sandbox Developer Portfolio',
@@ -257,6 +273,15 @@ export default function TabsContent() {
                           </li>
                         ))}
                       </ul>
+
+                      {/* Injected AWS Dashboard */}
+                      {item.id === 'proj-aws' && (
+                        <div className="w-full mt-4 flex justify-center">
+                          <div className="w-full max-w-[650px]">
+                            <MarketDashboard />
+                          </div>
+                        </div>
+                      )}
 
                       {/* Project Links */}
                       {(item.github || item.live) && (
