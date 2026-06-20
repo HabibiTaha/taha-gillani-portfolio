@@ -152,7 +152,7 @@ export default function App() {
               {/* Academic HUD Badges */}
               <div className="flex flex-wrap gap-3 md:gap-4 mb-6 justify-center md:justify-start">
                 <span className="text-[10px] md:text-xs lg:text-sm font-mono border border-cyan-400/30 text-cyan-400 bg-cyan-950/20 px-2.5 py-1 md:px-3 md:py-1.5 rounded-md shadow-[0_0_8px_rgba(6,182,212,0.15)] academic-badge cs">
-                  4th-Year CS @ U of Lethbridge
+                  3rd-Year CS @ U of Lethbridge
                 </span>
                 <span className="text-[10px] md:text-xs lg:text-sm font-mono border border-pink-500/30 text-pink-400 bg-pink-950/20 px-2.5 py-1 md:px-3 md:py-1.5 rounded-md shadow-[0_0_8px_rgba(236,72,153,0.15)] academic-badge gpa">
                   GPA: 3.8
