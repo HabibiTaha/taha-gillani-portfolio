@@ -34,7 +34,10 @@ export default function MarketDashboard() {
   return (
     <div style={{ padding: '25px', backgroundColor: '#0a0a0a', color: '#fff', borderRadius: '12px', border: '1px solid #333', maxWidth: '650px', margin: '0 auto', boxShadow: '0 10px 30px rgba(0,0,0,0.8)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', borderBottom: '1px solid #222', paddingBottom: '15px' }}>
-        <h2 style={{ margin: 0, fontSize: '1.4rem', letterSpacing: '2px', color: '#e0e0e0' }}>LIVE CLOUD DATA FEED</h2>
+        <div>
+          <h2 style={{ margin: 0, fontSize: '1.4rem', letterSpacing: '2px', color: '#e0e0e0' }}>CRYPTO CLOUD LIVE FEED</h2>
+          <div style={{ fontSize: '0.7rem', color: '#888', marginTop: '4px', letterSpacing: '1px', fontFamily: 'monospace' }}>UPDATES EVERY 5 MINUTES</div>
+        </div>
         <button onClick={fetchMarketData} style={{ padding: '8px 16px', background: '#1a1a1a', color: '#00ffcc', border: '1px solid #00ffcc', borderRadius: '4px', cursor: 'pointer', fontFamily: 'monospace', fontWeight: 'bold', transition: 'all 0.2s' }}>
           SYNC DATA
         </button>
