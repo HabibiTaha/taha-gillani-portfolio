@@ -35,7 +35,7 @@ interface AccordionItem {
 const EXPERIENCE_ITEMS: AccordionItem[] = [
   {
     id: 'exp-2',
-    title: 'Full Stack Developer / Software Engineer',
+    title: 'Full Stack Developer / Software Engineer Intern',
     subtitle: 'Imperio Property Management LTD. | Calgary, AB (June 2024 – August 2025)',
     color: '#FFFF00', // Neon Yellow
     logo: '/imperio.png',
