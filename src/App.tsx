@@ -5,6 +5,7 @@ import CursorTrail from './components/CursorTrail';
 import TabsContent from './components/TabsContent';
 import PhysicsSkills from './components/PhysicsSkills';
 import TypewriterIntro from './components/TypewriterIntro';
+import MarketDashboard from './MarketDashboard';
 
 // Custom GithubIcon SVG
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -229,6 +230,18 @@ export default function App() {
         </div>
 
       </section>
+
+      {/* ─── AWS MARKET DATA DASHBOARD SECTION ─── */}
+      <div className={`w-full max-w-4xl mx-auto my-12 px-6 transition-all duration-1000 ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <MarketDashboard />
+        </motion.div>
+      </div>
 
       {/* ─── 2. TABBED CONTENT SECTION (MIDDLE) ─── */}
       <section className={`w-full py-24 px-6 md:px-24 lg:px-32 border-b border-white/5 bg-studio-900/10 transition-all duration-1000 ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
