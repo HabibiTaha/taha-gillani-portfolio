@@ -1,6 +1,7 @@
 # Taha's Portfolio
-
-hi my names taha and this is my portfolio
+Hey there!
+My names Taha and welcome to my portfolio!
+its a simple sleek website but with a cool interactive physics sandbox, feel free to give it a try!
 
 Live URL: [tahagillani.ca](https://tahagillani.ca)
 
