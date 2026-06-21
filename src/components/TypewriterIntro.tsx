@@ -72,7 +72,7 @@ export default function TypewriterIntro({ onComplete, className }: { onComplete?
 
     const timer = setTimeout(() => {
       setStep((prev) => prev + 1);
-    }, 80); // slow typing speed
+    }, 45); // speeded up typing speed
 
     return () => clearTimeout(timer);
   }, [step, totalSteps, onComplete]);
