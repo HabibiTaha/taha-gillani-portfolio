@@ -73,8 +73,8 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
 
         // Draw the segment
         ctx.beginPath();
-        // Size shrinks down the trail (tapered multiplier reduced from 0.6 to 0.4 for smaller scale)
-        const radius = (numCircles - index) * 0.4;
+        // Size shrinks down the trail (tapered multiplier reduced from 0.4 to 0.25 for smaller scale)
+        const radius = (numCircles - index) * 0.25;
         ctx.arc(circle.x, circle.y, Math.max(radius, 0.1), 0, Math.PI * 2);
         
         // Opacity fades out
