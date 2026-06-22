@@ -232,7 +232,6 @@ export default function MarketDashboard() {
             <div className="flex justify-between items-center text-[10px] text-[#a1a1aa]">
               <div className="flex items-center gap-2">
                 <span className="font-bold text-[#fafafa]">{selectedAsset} INTRADAY TREND</span>
-                <span className="text-[9px] text-[#00f2ff] px-1.5 py-0.5 rounded bg-[#00f2ff]/10">TELEMETRY STREAM</span>
               </div>
               <div className="flex gap-3 text-[9px]">
                 <span className="text-[#00ff88]">HIGH: ${maxPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
@@ -268,18 +267,12 @@ export default function MarketDashboard() {
                 />
               </svg>
             </div>
-            
-            <div className="flex justify-between items-center text-[8px] text-[#a1a1aa] tracking-widest mt-1">
-              <span>REAL-TIME STREAMING TELEMETRY (20 TICKS)</span>
-              <span>SCALE: AUTO-ADJUSTING</span>
-            </div>
           </div>
         )}
       </div>
       
       {/* Terminal Footer */}
-      <div className="px-5 py-2.5 bg-[#18181b]/30 border-t border-[#27272a] flex justify-between items-center text-[8px] text-[#a1a1aa] tracking-widest uppercase">
-        <span>SYS: SECURE // API_GATEWAY: OK // ACTIVE: {selectedAsset}</span>
+      <div className="px-5 py-2.5 bg-[#18181b]/30 border-t border-[#27272a] flex justify-end items-center text-[8px] text-[#a1a1aa] tracking-widest uppercase">
         <span>NODE: AWS-CA-WEST-1 | CALGARY</span>
       </div>
     </div>
