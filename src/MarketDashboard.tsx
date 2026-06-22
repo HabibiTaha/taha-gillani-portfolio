@@ -8,7 +8,7 @@ const generateMockHistory = (currentPrice: number): number[] => {
   const history: number[] = [];
   let price = currentPrice * 0.985; // start slightly lower
   for (let i = 0; i < points; i++) {
-    const change = (Math.random() - 0.45) * currentPrice * 0.004;
+    const change = (Math.random() - 0.45) * currentPrice * 0.003;
     price = price + change;
     history.push(price);
   }
@@ -19,13 +19,18 @@ const generateMockHistory = (currentPrice: number): number[] => {
 export default function MarketDashboard() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC-USD');
   const [priceHistory, setPriceHistory] = useState<Record<string, number[]>>({});
 
-  const fetchMarketData = async () => {
+  const fetchMarketData = async (isInitial = false) => {
     try {
-      setLoading(true);
+      if (isInitial) {
+        setLoading(true);
+      } else {
+        setSyncing(true);
+      }
       const response = await fetch(API_URL);
       if (!response.ok) throw new Error("Failed to communicate with AWS API Gateway");
       
@@ -37,13 +42,15 @@ export default function MarketDashboard() {
       setError(err.message || "Unknown error occurred");
     } finally {
       setLoading(false);
+      setSyncing(false);
     }
   };
 
   useEffect(() => {
-    fetchMarketData();
+    fetchMarketData(true);
   }, []);
 
+  // Sync priceHistory whenever data changes
   useEffect(() => {
     if (data.length > 0) {
       const newHistory = { ...priceHistory };
@@ -58,7 +65,7 @@ export default function MarketDashboard() {
           const currentArr = newHistory[item.AssetType];
           if (currentArr[currentArr.length - 1] !== price) {
             const updatedArr = [...currentArr, price];
-            if (updatedArr.length > 25) updatedArr.shift();
+            if (updatedArr.length > 20) updatedArr.shift();
             newHistory[item.AssetType] = updatedArr;
             updated = true;
           }
@@ -69,12 +76,33 @@ export default function MarketDashboard() {
         setPriceHistory(newHistory);
       }
 
-      // Default selection if current selection is invalid
       if (!data.some(item => item.AssetType === selectedAsset)) {
         setSelectedAsset(data[0].AssetType);
       }
     }
   }, [data]);
+
+  // Simulate real-time price fluctuations every 4 seconds to animate the graph
+  useEffect(() => {
+    if (loading || error || data.length === 0) return;
+
+    const interval = setInterval(() => {
+      setData(prevData => {
+        return prevData.map(item => {
+          const currentPrice = parseFloat(item.Price) || 0;
+          // Fluctuate by random percentage between -0.15% and +0.15%
+          const pct = (Math.random() - 0.48) * 0.003; 
+          const newPrice = currentPrice * (1 + pct);
+          return {
+            ...item,
+            Price: newPrice.toFixed(2)
+          };
+        });
+      });
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [loading, error, data.length]);
 
   if (loading) {
     return (
@@ -150,10 +178,11 @@ export default function MarketDashboard() {
         </div>
         
         <button 
-          onClick={fetchMarketData} 
-          className="px-3 py-1.5 bg-[#18181b] text-[#00f2ff] border border-[#00f2ff]/30 hover:border-[#00f2ff] hover:bg-[#00f2ff]/5 hover:shadow-[0_0_10px_rgba(0,242,255,0.2)] rounded text-[10px] font-bold tracking-widest cursor-pointer transition-all duration-300 active:scale-95 uppercase animate-pulse"
+          onClick={() => fetchMarketData(false)} 
+          disabled={syncing}
+          className={`px-3 py-1.5 bg-[#18181b] text-[#00f2ff] border border-[#00f2ff]/30 hover:border-[#00f2ff] hover:bg-[#00f2ff]/5 hover:shadow-[0_0_10px_rgba(0,242,255,0.2)] rounded text-[10px] font-bold tracking-widest cursor-pointer transition-all duration-300 active:scale-95 uppercase ${syncing ? 'opacity-50 cursor-not-allowed animate-pulse' : ''}`}
         >
-          SYNC DATA
+          {syncing ? 'SYNCING...' : 'SYNC DATA'}
         </button>
       </div>
 

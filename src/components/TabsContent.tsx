@@ -80,7 +80,7 @@ const PROJECT_ITEMS: AccordionItem[] = [
       'Exposed a secure REST API via AWS API Gateway to query DynamoDB and serve telemetry directly to the frontend interface.'
     ],
     tech: ['Python', 'AWS', 'Serverless', 'REST API', 'DynamoDB'],
-    github: 'https://github.com/HabibiTaha'
+    github: 'https://github.com/HabibiTaha/aws-live-crypto-dashboard'
   },
   {
     id: 'proj-1',
