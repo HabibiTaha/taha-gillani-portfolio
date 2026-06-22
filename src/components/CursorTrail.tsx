@@ -1,24 +1,19 @@
 import { useRef, useEffect } from 'react';
 
-interface Point {
-  x: number;
-  y: number;
-  age: number;
-  color: string;
-}
-
-const NEON_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Magenta, Yellow, Neon Green
-const LIGHT_COLORS = ['#0891b2', '#c026d3', '#b45309', '#16a34a']; // Cyan-600, Fuchsia-600, Amber-700, Green-600
-
 interface CursorTrailProps {
   theme: 'dark' | 'light';
 }
 
+interface CircleSegment {
+  x: number;
+  y: number;
+}
+
 export default function CursorTrail({ theme }: CursorTrailProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const pointsRef = useRef<Point[]>([]);
-  const mouseRef = useRef({ x: 0, y: 0, moving: false });
-  const colorIndexRef = useRef(0);
+  const circlesRef = useRef<CircleSegment[]>([]);
+  const mouseRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const hueRef = useRef(0);
   const themeRef = useRef(theme);
 
   useEffect(() => {
@@ -35,7 +30,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas dimensions
+    // Resize canvas to fill window
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -43,78 +38,59 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Track mouse coordinates
+    // Initialize trail segments
+    const numCircles = 25; // Number of trail segments
+    const circles: CircleSegment[] = [];
+    for (let i = 0; i < numCircles; i++) {
+      circles.push({ x: mouseRef.current.x, y: mouseRef.current.y });
+    }
+    circlesRef.current = circles;
+
+    // Track mouse movement
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
-      mouseRef.current.moving = true;
-
-      // Color cycling
-      const colors = themeRef.current === 'dark' ? NEON_COLORS : LIGHT_COLORS;
-      colorIndexRef.current = (colorIndexRef.current + 0.1) % colors.length;
-      const color1 = colors[Math.floor(colorIndexRef.current)];
-      const color2 = colors[(Math.floor(colorIndexRef.current) + 1) % colors.length];
-      
-      // Interpolate colors for smooth transitions
-      const ratio = colorIndexRef.current % 1;
-      const r1 = parseInt(color1.substring(1, 3), 16);
-      const g1 = parseInt(color1.substring(3, 5), 16);
-      const b1 = parseInt(color1.substring(5, 7), 16);
-      const r2 = parseInt(color2.substring(1, 3), 16);
-      const g2 = parseInt(color2.substring(3, 5), 16);
-      const b2 = parseInt(color2.substring(5, 7), 16);
-      const r = Math.round(r1 + (r2 - r1) * ratio);
-      const g = Math.round(g1 + (g2 - g1) * ratio);
-      const b = Math.round(b1 + (b2 - b1) * ratio);
-      const color = `rgb(${r}, ${g}, ${b})`;
-
-      pointsRef.current.push({
-        x: e.clientX,
-        y: e.clientY,
-        age: 0,
-        color
-      });
     };
-
     window.addEventListener('mousemove', handleMouseMove);
 
     // Animation render loop
     let animationFrameId: number;
-    const maxAge = 60; // Length of the trail in frames
 
     const drawTrail = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const points = pointsRef.current;
+      let targetX = mouseRef.current.x;
+      let targetY = mouseRef.current.y;
 
-      // Update point ages and filter out expired points
-      for (let i = 0; i < points.length; i++) {
-        points[i].age += 1;
-      }
-      pointsRef.current = points.filter((p) => p.age < maxAge);
+      // Increment hue for color cycling over time
+      hueRef.current = (hueRef.current + 1.2) % 360;
 
-      // Draw the connecting ribbon trail
-      const activePoints = pointsRef.current;
-      if (activePoints.length > 1) {
-        for (let i = 1; i < activePoints.length; i++) {
-          const p1 = activePoints[i - 1];
-          const p2 = activePoints[i];
+      circlesRef.current.forEach((circle, index) => {
+        // Spring physics: move each circle a percentage of the distance to the target
+        // Added a tiny extra delay (multiplier reduced from 0.3 to 0.2)
+        circle.x += (targetX - circle.x) * 0.2;
+        circle.y += (targetY - circle.y) * 0.2;
 
-          const alpha = 1 - p2.age / maxAge;
-          ctx.strokeStyle = p2.color;
-          ctx.globalAlpha = alpha;
-          ctx.lineWidth = Math.max(0.5, (1 - p2.age / maxAge) * 4); // taper thickness
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
+        // Draw the segment
+        ctx.beginPath();
+        // Size shrinks down the trail (tapered multiplier reduced from 0.6 to 0.4 for smaller scale)
+        const radius = (numCircles - index) * 0.4;
+        ctx.arc(circle.x, circle.y, Math.max(radius, 0.1), 0, Math.PI * 2);
+        
+        // Opacity fades out
+        const opacity = (numCircles - index) / numCircles;
+        
+        // Color cycle: smooth HSL shifts along the trail, adapting brightness for light/dark themes
+        const hue = (hueRef.current + index * 4.5) % 360;
+        const lightness = themeRef.current === 'dark' ? 60 : 45; // slightly darker/richer colors in light mode
+        ctx.fillStyle = `hsla(${hue}, 100%, ${lightness}%, ${opacity * 0.55})`;
+        ctx.fill();
 
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
-        }
-      }
+        // The next circle's target is the current circle's position
+        targetX = circle.x;
+        targetY = circle.y;
+      });
 
-      ctx.globalAlpha = 1.0; // reset
       animationFrameId = requestAnimationFrame(drawTrail);
     };
 
