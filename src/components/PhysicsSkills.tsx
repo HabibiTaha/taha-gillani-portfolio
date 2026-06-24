@@ -13,7 +13,7 @@ const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 3: DevOps
   "AWS": 3, "Azure": 3, "GCP": 3, "Docker": 3, "Kubernetes": 3, "Git": 3, "CI/CD": 3,
   // Column 4: Systems
-  "OOP": 4, "RAII": 4, "CMake": 4, "PC Architecture & Hardware Assembly": 4, "NumPy": 4, "Pandas": 4, "MCP": 4,
+  "OOP": 4, "RAII": 4, "CMake": 4, "PC's": 4, "NumPy": 4, "Pandas": 4, "MCP": 4,
   // Column 5: Tools & AI
   "TensorFlow": 5, "PyTorch": 5, "Sagemaker": 5, "DeepLearning": 5, "Prompt Engineering": 5, "AI/ML": 5, "Finance": 5, "SAP": 5, "MS Office365 Suite": 5, "Agile": 5
 };
@@ -169,7 +169,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
 
     const skills = [
       "Python", "Java", "C++", "C", "JavaScript", "SQL", "MySQL", 
-      "PostGres", "OOP", "RAII", "CMake", "Lua", "PC Architecture & Hardware Assembly", 
+      "PostGres", "OOP", "RAII", "CMake", "Lua", "PC's", 
       "React", "Node.js", "Express", "Django", "Supabase", "MongoDB", 
       "NOSQL", "FastAPI", "API", "REST APIs", "JSON", "Firebase", 
       "AWS", "Azure", "Vercel", "Docker", "Git", "CI/CD", "Agile", 

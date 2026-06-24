@@ -42,7 +42,7 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
 
     const skills = [
       "Python", "Java", "C++", "C", "JavaScript", "SQL", "MySQL", 
-      "PostGres", "OOP", "RAII", "CMake", "Lua", "PC Architecture & Hardware Assembly", 
+      "PostGres", "OOP", "RAII", "CMake", "Lua", "PC's", 
       "React", "Node.js", "Express", "Django", "Supabase", "MongoDB", 
       "NOSQL", "FastAPI", "API", "REST APIs", "JSON", "Firebase", 
       "AWS", "Azure", "Vercel", "Docker", "Git", "CI/CD", "Agile", 
