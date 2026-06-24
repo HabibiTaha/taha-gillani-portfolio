@@ -5,17 +5,17 @@ const CYBER_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Mage
 
 const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 0: Languages
-  "C++": 0, "C": 0, "Python": 0, "Java": 0, "Javascript": 0, "SQL": 0,
-  // Column 1: Frontend & Web API
-  "React": 1, "Vercel": 1, "API": 1, "JSON": 1,
-  // Column 2: Backend & DB
-  "Node.js": 2, "Express": 2, "MongoDB": 2, "REST APIs": 2, "Supabase": 2, "Django": 2,
-  // Column 3: Cloud & DevOps
-  "Git": 3, "Docker": 3, "AWS": 3, "Azure": 3, "CI/CD": 3,
-  // Column 4: Systems & Physics
-  "OOP": 4, "Game Physics": 4, "Collision Detection": 4, "CMake": 4, "RAII": 4,
-  // Column 5: Business, Tools & AI
-  "PowerBI": 5, "MS": 5, "Office365": 5, "Finance": 5, "PowerApps": 5, "PCs": 5, "Agile": 5, "AI/ML": 5, "Prompting": 5, "SAP": 5
+  "Python": 0, "Java": 0, "C++": 0, "C": 0, "JavaScript": 0, "SQL": 0, "Lua": 0,
+  // Column 1: Frontend
+  "React": 1, "Vercel": 1, "API": 1, "JSON": 1, "Firebase": 1, "Supabase": 1, "PowerBI": 1, "PowerApps": 1,
+  // Column 2: Backend
+  "Node.js": 2, "Express": 2, "Django": 2, "FastAPI": 2, "REST APIs": 2, "MongoDB": 2, "NOSQL": 2, "MySQL": 2, "PostGres": 2, "DynamoDB": 2,
+  // Column 3: DevOps
+  "AWS": 3, "Azure": 3, "GCP": 3, "Docker": 3, "Kubernetes": 3, "Git": 3, "CI/CD": 3,
+  // Column 4: Systems
+  "OOP": 4, "RAII": 4, "CMake": 4, "PC Architecture & Hardware Assembly": 4, "NumPy": 4, "Pandas": 4, "MCP": 4,
+  // Column 5: Tools & AI
+  "TensorFlow": 5, "PyTorch": 5, "Sagemaker": 5, "DeepLearning": 5, "Prompt Engineering": 5, "AI/ML": 5, "Finance": 5, "SAP": 5, "MS Office365 Suite": 5, "Agile": 5
 };
 
 const CATEGORY_NAMES = [
@@ -168,12 +168,14 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "React", "Node.js", "C++", "MongoDB", "AWS", "Docker", "Python", 
-      "REST APIs", "Game Physics", "Collision Detection", "SAP", 
-      "Git", "OOP", "Vercel", "PowerBI", "MS", "Office365", 
-      "Supabase", "Azure", "Java", "Javascript", "SQL", "Finance", 
-      "Express", "Django", "AI/ML", "C", "Prompting", "PowerApps", 
-      "API", "JSON", "PCs", "Agile", "CMake", "RAII", "CI/CD"
+      "Python", "Java", "C++", "C", "JavaScript", "SQL", "MySQL", 
+      "PostGres", "OOP", "RAII", "CMake", "Lua", "PC Architecture & Hardware Assembly", 
+      "React", "Node.js", "Express", "Django", "Supabase", "MongoDB", 
+      "NOSQL", "FastAPI", "API", "REST APIs", "JSON", "Firebase", 
+      "AWS", "Azure", "Vercel", "Docker", "Git", "CI/CD", "Agile", 
+      "GCP", "Kubernetes", "DynamoDB", "TensorFlow", "PyTorch", "Sagemaker", 
+      "DeepLearning", "NumPy", "Pandas", "Prompt Engineering", "MCP", 
+      "Finance", "SAP", "PowerBI", "PowerApps", "MS Office365 Suite", "AI/ML"
     ];
 
     const isMobile = window.innerWidth < 768;
