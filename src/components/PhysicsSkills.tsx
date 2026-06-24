@@ -15,7 +15,7 @@ const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 4: Systems
   "OOP": 4, "RAII": 4, "CMake": 4, "PC's": 4, "NumPy": 4, "Pandas": 4, "MCP": 4,
   // Column 5: Tools & AI
-  "TensorFlow": 5, "PyTorch": 5, "Sagemaker": 5, "DeepLearning": 5, "Prompt Engineering": 5, "AI/ML": 5, "Finance": 5, "SAP": 5, "MS Office365 Suite": 5, "Agile": 5
+  "TensorFlow": 5, "PyTorch": 5, "Sagemaker": 5, "DeepLearning": 5, "PromptEng": 5, "AI/ML": 5, "Finance": 5, "SAP": 5, "MsOffice365": 5, "Agile": 5
 };
 
 const CATEGORY_NAMES = [
@@ -174,8 +174,8 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
       "NOSQL", "FastAPI", "API", "REST APIs", "JSON", "Firebase", 
       "AWS", "Azure", "Vercel", "Docker", "Git", "CI/CD", "Agile", 
       "GCP", "Kubernetes", "DynamoDB", "TensorFlow", "PyTorch", "Sagemaker", 
-      "DeepLearning", "NumPy", "Pandas", "Prompt Engineering", "MCP", 
-      "Finance", "SAP", "PowerBI", "PowerApps", "MS Office365 Suite", "AI/ML"
+      "DeepLearning", "NumPy", "Pandas", "PromptEng", "MCP", 
+      "Finance", "SAP", "PowerBI", "PowerApps", "MsOffice365", "AI/ML"
     ];
 
     const isMobile = window.innerWidth < 768;
