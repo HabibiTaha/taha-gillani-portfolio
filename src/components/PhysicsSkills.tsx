@@ -5,17 +5,17 @@ const CYBER_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Mage
 
 const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 0: Languages
-  "Python": 0, "Java": 0, "C++": 0, "C": 0, "JavaScript": 0, "SQL": 0, "Lua": 0,
+  "Python": 0, "Java": 0, "C++": 0, "JavaScript": 0, "SQL": 0, "Lua": 0,
   // Column 1: Frontend
-  "React": 1, "Vercel": 1, "API": 1, "JSON": 1, "Firebase": 1, "Supabase": 1, "PowerBI": 1, "PowerApps": 1,
+  "React": 1, "Vercel": 1, "Firebase": 1, "Supabase": 1, "Microsoft Power BI": 1, "PowerApps": 1,
   // Column 2: Backend
-  "Node.js": 2, "Express": 2, "Django": 2, "FastAPI": 2, "REST APIs": 2, "MongoDB": 2, "NOSQL": 2, "MySQL": 2, "PostGres": 2, "DynamoDB": 2,
+  "Node.js": 2, "Express": 2, "Django": 2, "FastAPI": 2, "PostgreSQL": 2, "MySQL": 2, "MongoDB": 2,
   // Column 3: DevOps
-  "AWS": 3, "Azure": 3, "GCP": 3, "Docker": 3, "Kubernetes": 3, "Git": 3, "CI/CD": 3,
+  "AWS": 3, "Docker": 3, "Kubernetes": 3, "Git": 3, "CI/CD Pipelines": 3, "DynamoDB": 3,
   // Column 4: Systems
-  "OOP": 4, "RAII": 4, "CMake": 4, "PC's": 4, "NumPy": 4, "Pandas": 4, "MCP": 4,
+  "NumPy": 4, "Pandas": 4, "MCP": 4, "Agile/Scrum": 4, "NoSQL": 4,
   // Column 5: Tools & AI
-  "TensorFlow": 5, "PyTorch": 5, "Sagemaker": 5, "DeepLearning": 5, "PromptEng": 5, "AI/ML": 5, "Finance": 5, "SAP": 5, "MsOffice365": 5, "Agile": 5
+  "TensorFlow": 5, "PyTorch": 5, "Amazon SageMaker": 5, "AI/ML": 5, "SAP": 5
 };
 
 const CATEGORY_NAMES = [
@@ -168,14 +168,12 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "Python", "Java", "C++", "C", "JavaScript", "SQL", "MySQL", 
-      "PostGres", "OOP", "RAII", "CMake", "Lua", "PC's", 
-      "React", "Node.js", "Express", "Django", "Supabase", "MongoDB", 
-      "NOSQL", "FastAPI", "API", "REST APIs", "JSON", "Firebase", 
-      "AWS", "Azure", "Vercel", "Docker", "Git", "CI/CD", "Agile", 
-      "GCP", "Kubernetes", "DynamoDB", "TensorFlow", "PyTorch", "Sagemaker", 
-      "DeepLearning", "NumPy", "Pandas", "PromptEng", "MCP", 
-      "Finance", "SAP", "PowerBI", "PowerApps", "MsOffice365", "AI/ML"
+      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "React", 
+      "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
+      "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", "AWS", 
+      "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
+      "TensorFlow", "PyTorch", "Amazon SageMaker", "NumPy", "Pandas", "MCP", 
+      "Microsoft Power BI", "PowerApps", "SAP", "AI/ML"
     ];
 
     const isMobile = window.innerWidth < 768;
