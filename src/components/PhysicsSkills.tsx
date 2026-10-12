@@ -5,7 +5,7 @@ const CYBER_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Mage
 
 const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 0: Languages
-  "Python": 0, "Java": 0, "C++": 0, "JavaScript": 0, "SQL": 0, "Lua": 0,
+  "Python": 0, "Java": 0, "C++": 0, "JavaScript": 0, "SQL": 0, "Lua": 0, "VBA": 0,
   // Column 1: Frontend
   "React": 1, "Vercel": 1, "Firebase": 1, "Supabase": 1, "Microsoft Power BI": 1, "PowerApps": 1,
   // Column 2: Backend
@@ -168,7 +168,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "React", 
+      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", "React", 
       "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
       "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", "AWS", 
       "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 

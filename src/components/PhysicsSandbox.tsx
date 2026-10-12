@@ -41,7 +41,7 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "React", 
+      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", "React", 
       "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
       "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", "AWS", 
       "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
