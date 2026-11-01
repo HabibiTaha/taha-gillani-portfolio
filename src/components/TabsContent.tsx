@@ -36,33 +36,32 @@ interface AccordionItem {
 const EXPERIENCE_ITEMS: AccordionItem[] = [
   {
     id: 'exp-2',
-    title: 'Full Stack Developer / Software Engineer Intern',
+    title: 'Full Stack Engineer',
     subtitle: 'Imperio Property Management LTD. | Calgary, AB (June 2024 – August 2025)',
     color: '#FFFF00', // Neon Yellow
     logo: '/imperio.png',
     logoBg: '#ffffff',
     bullets: [
-      'Engineered and optimized full-stack web applications utilizing the MERN stack, significantly enhancing system scalability, performance, and user engagement.',
-      'Designed and deployed secure RESTful APIs to facilitate seamless, low-latency communication between front-end and back-end architectures.',
-      'Streamlined local development and deployment pipelines by containerizing applications with Docker and managing version control via Git.',
-      'Collaborated directly with stakeholders to debug critical issues, minimize system downtime, and refine technical workflows.',
-      'Elevated user interface responsiveness and cross-browser reliability through component testing and iterative debugging.'
+      'Ran daily operations 100% online across 20+ rental units by building an internal web app (React, Node.js, MongoDB) that let staff track leases, maintenance tickets, and tenants in one place.',
+      'Stopped duplicate records and communication delays across teams by engineering automated database triggers that instantly synced live property updates across all staff dashboards.',
+      'Designed a REST API and reduced page-load time 35% by adding query caching.',
+      'Saved operations staff 10+ hours weekly in manual admin chores by sitting down directly with property managers and turning their everyday bottlenecks into automated software features.'
     ],
-    tech: ['MERN Stack', 'RESTful APIs', 'Docker', 'Git', 'API Design', 'Debugging']
+    tech: ['React', 'Node.js', 'MongoDB', 'REST APIs', 'Query Caching', 'Workflow Automation']
   },
   {
     id: 'exp-1',
-    title: 'Commissioned Sales Representative',
-    subtitle: 'Visions Electronics | Calgary, AB (Oct 2024 – August 2025)',
+    title: 'Commissioned Sales Specialist',
+    subtitle: 'Visions Electronics | Calgary, AB (October 2024 – August 2025)',
     color: '#FF00FF', // Neon Magenta
     logo: '/visions.png',
     logoBg: '#ffffff',
     bullets: [
-      'Generated over $400K in product and accessory sales by translating complex technical specifications into consumer-focused value propositions.',
-      'Recognized as a top-performing accessory salesperson across Canada for consistently outperforming aggressive regional targets.',
-      'Cultivated a loyal client base through proactive relationship management, driving consistent repeat business and referrals.'
+      'Generated over $400,000 in gross revenue across home theater, audio, and protection packages by solving customer setup problems, being Awarded as one of the top accessory sales reps in Canada.',
+      'Translated complex hardware specs and audio architecture into clear, practical benefits for buyers, building the trust that drove repeat customers and word-of-mouth referrals.',
+      'Maximized transaction profitability by tracking daily margin reports and attachment rates, systematically pairing high-margin accessories and warranties to consistently exceed revenue targets.'
     ],
-    tech: ['Sales Engineering', 'Consultative Selling', 'CRM Systems', 'Revenue Generation']
+    tech: ['Sales Engineering', 'Revenue Optimization', 'Hardware & Audio Specs', 'Margin Analysis']
   }
 ];
 
