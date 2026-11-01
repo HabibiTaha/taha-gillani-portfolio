@@ -163,7 +163,13 @@ export default function App() {
               </div>
  
               <p className="text-xs md:text-sm lg:text-base text-white/50 leading-relaxed max-w-2xl xl:max-w-3xl mb-8 font-sans text-left">
-                I'm currently obsessed with agentic AI. I create data-driven digital products that drive a competitive edge. When I'm not coding applications or designing systems, you can usually find me playing sports, diving into video games, or exploring the latest in technology and finance. I enjoy blending logical engineering with active and creative pursuits.
+                I'm currently obsessed with agentic AI. I create data-driven digital products that drive a competitive edge. When I'm not coding applications or designing systems, you can usually find me playing sports, diving into video games, or exploring the latest in technology and finance. Want to collaborate?{' '}
+                <a
+                  href="mailto:taha.gillani@uleth.ca"
+                  className="underline hover:text-cyan-400 text-white/80 transition-colors"
+                >
+                  email me
+                </a>
               </p>
  
               {/* Clickable Brand & Action Icon Links */}

@@ -41,12 +41,12 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", "React", 
-      "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
-      "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", "AWS", 
-      "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
-      "TensorFlow", "PyTorch", "Amazon SageMaker", "NumPy", "Pandas", "MCP", 
-      "Microsoft Power BI", "PowerApps", "SAP", "AI/ML"
+      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", 
+      "React", "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
+      "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", 
+      "AWS", "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
+      "TensorFlow", "PyTorch", "Amazon SageMaker", "NumPy", "Pandas", "Model Context Protocol (MCP)", 
+      "Microsoft Power BI", "PowerApps", "SAP", "Microsoft Office Suite"
     ];
     const blocks = skills.map((skill, index) => {
       // Calculate dynamic block size based on text length

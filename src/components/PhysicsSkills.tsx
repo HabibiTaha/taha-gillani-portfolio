@@ -6,25 +6,25 @@ const CYBER_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Mage
 const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 0: Languages
   "Python": 0, "Java": 0, "C++": 0, "JavaScript": 0, "SQL": 0, "Lua": 0, "VBA": 0,
-  // Column 1: Frontend
-  "React": 1, "Vercel": 1, "Firebase": 1, "Supabase": 1, "Microsoft Power BI": 1, "PowerApps": 1,
-  // Column 2: Backend
-  "Node.js": 2, "Express": 2, "Django": 2, "FastAPI": 2, "PostgreSQL": 2, "MySQL": 2, "MongoDB": 2,
-  // Column 3: DevOps
-  "AWS": 3, "Docker": 3, "Kubernetes": 3, "Git": 3, "CI/CD Pipelines": 3, "DynamoDB": 3,
-  // Column 4: Systems
-  "NumPy": 4, "Pandas": 4, "MCP": 4, "Agile/Scrum": 4, "NoSQL": 4,
-  // Column 5: Tools & AI
-  "TensorFlow": 5, "PyTorch": 5, "Amazon SageMaker": 5, "AI/ML": 5, "SAP": 5
+  // Column 1: Frameworks & Backends
+  "React": 1, "Node.js": 1, "Express": 1, "Django": 1, "FastAPI": 1, "Supabase": 1, "Firebase": 1,
+  // Column 2: Databases & Storage
+  "PostgreSQL": 2, "MySQL": 2, "MongoDB": 2, "DynamoDB": 2, "NoSQL": 2,
+  // Column 3: Cloud & DevOps
+  "AWS": 3, "Docker": 3, "Kubernetes": 3, "Vercel": 3, "Git": 3, "CI/CD Pipelines": 3, "Agile/Scrum": 3,
+  // Column 4: AI & Automation
+  "TensorFlow": 4, "PyTorch": 4, "Amazon SageMaker": 4, "NumPy": 4, "Pandas": 4, "Model Context Protocol (MCP)": 4, "MCP": 4,
+  // Column 5: Tools & Enterprise
+  "Microsoft Power BI": 5, "PowerApps": 5, "SAP": 5, "Microsoft Office Suite": 5
 };
 
 const CATEGORY_NAMES = [
   "Languages",
-  "Frontend",
-  "Backend",
-  "DevOps",
-  "Systems",
-  "Tools & AI"
+  "Frameworks",
+  "Databases",
+  "Cloud & DevOps",
+  "AI & Automation",
+  "Tools & Enterprise"
 ];
 
 interface PhysicsSkillsProps {
@@ -102,13 +102,17 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
       if (stacked) {
         const currentWidth = dimensionsRef.current.width;
         const currentHeight = dimensionsRef.current.height;
-        const numCols = 6;
+        const isMobile = window.innerWidth < 768;
+        const numCols = isMobile ? 3 : 6;
         const colWidth = currentWidth / numCols;
-        const colCounters = [0, 0, 0, 0, 0, 0];
+        const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0, 0];
 
         bodies.forEach((body) => {
           if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
-            const colIndex = SKILL_CATEGORIES[body.label];
+            const catIndex = SKILL_CATEGORIES[body.label];
+            const colIndex = isMobile 
+              ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 || catIndex === 3 ? 1 : 2)
+              : catIndex;
             const itemIndex = colCounters[colIndex]++;
             const blockHeight = (body as any).h || 42;
             const x = colWidth * (colIndex + 0.5);
@@ -168,12 +172,12 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", "React", 
-      "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
-      "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", "AWS", 
-      "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
-      "TensorFlow", "PyTorch", "Amazon SageMaker", "NumPy", "Pandas", "MCP", 
-      "Microsoft Power BI", "PowerApps", "SAP", "AI/ML"
+      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", 
+      "React", "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
+      "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", 
+      "AWS", "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
+      "TensorFlow", "PyTorch", "Amazon SageMaker", "NumPy", "Pandas", "Model Context Protocol (MCP)", 
+      "Microsoft Power BI", "PowerApps", "SAP", "Microsoft Office Suite"
     ];
 
     const isMobile = window.innerWidth < 768;
@@ -216,7 +220,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         if (block.label && SKILL_CATEGORIES[block.label] !== undefined) {
           const catIndex = SKILL_CATEGORIES[block.label];
           const colIndex = isMobile 
-            ? (catIndex === 0 || catIndex === 4 ? 0 : catIndex === 1 || catIndex === 2 ? 1 : 2)
+            ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 || catIndex === 3 ? 1 : 2)
             : catIndex;
           const itemIndex = colCounters[colIndex]++;
           const blockHeight = (block as any).h || 42;
@@ -327,7 +331,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
             if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
               const catIndex = SKILL_CATEGORIES[body.label];
               const colIndex = isMobile 
-                ? (catIndex === 0 || catIndex === 4 ? 0 : catIndex === 1 || catIndex === 2 ? 1 : 2)
+                ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 || catIndex === 3 ? 1 : 2)
                 : catIndex;
               const itemIndex = colCounters[colIndex]++;
               const blockHeight = (body as any).h || 42;
@@ -428,9 +432,9 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         const colWidth = currentWidth / numCols;
         
         const mobileHeaders = [
-          "LANGS & SYS",
-          "FRONT & BACK",
-          "DEVOPS & TOOLS"
+          "LANGS & FRAMEWORKS",
+          "DATA & DEVOPS",
+          "AI & ENTERPRISE"
         ];
 
         const headerY = isMobile ? 110 : 80;
