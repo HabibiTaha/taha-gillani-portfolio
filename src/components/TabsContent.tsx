@@ -178,13 +178,7 @@ export default function TabsContent() {
   return (
     <div className="w-full max-w-5xl mx-auto font-mono select-none">
       {/* ─── TAB TOGGLE HEADER ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="flex justify-center gap-8 mb-10 border-b border-white/10 pb-5"
-      >
+      <div className="flex justify-center gap-8 mb-10 border-b border-white/10 pb-5">
         <button
           onClick={() => {
             setActiveTab('experience');
@@ -220,29 +214,20 @@ export default function TabsContent() {
             />
           )}
         </button>
-      </motion.div>
+      </div>
 
       {/* ─── ACCORDION CONTAINER ─── */}
       <div className="flex flex-col gap-4 md:gap-5 lg:gap-6">
-        {items.map((item, index) => {
+        {items.map((item) => {
           const isOpen = expandedId === item.id;
           return (
-            <motion.div
+            <div
               key={item.id}
-              initial={{ opacity: 0, y: 48, filter: 'blur(5px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{
-                duration: 0.65,
-                delay: index * 0.08,
-                ease: [0.16, 1, 0.3, 1]
-              }}
+              className="border border-white/5 rounded-xl bg-studio-900/40 overflow-hidden transition-all duration-300 accordion-panel"
               style={{
-                perspective: 1200,
                 borderColor: isOpen ? `${item.color}40` : 'rgba(255, 255, 255, 0.05)',
                 boxShadow: isOpen ? `0 0 15px ${item.color}10` : 'none'
               }}
-              className="border border-white/5 rounded-xl bg-studio-900/40 overflow-hidden transition-colors duration-300 accordion-panel"
             >
               {/* Row Header Trigger */}
               <button
@@ -359,7 +344,7 @@ export default function TabsContent() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           );
         })}
       </div>
