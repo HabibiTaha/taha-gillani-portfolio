@@ -31,11 +31,11 @@ class WaveOscillator {
 }
 
 const CONFIG = {
-  friction: 0.5,
-  trails: 20,
-  size: 50,
+  friction: 0.45,
+  trails: 16,
+  size: 24,
   dampening: 0.25,
-  tension: 0.98,
+  tension: 0.95,
 };
 
 class Line {
@@ -139,7 +139,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
       for (let i = 0; i < CONFIG.trails; i++) {
         trails.push(
           new Line(
-            { spring: 0.45 + (i / CONFIG.trails) * 0.025 },
+            { spring: 0.52 + (i / CONFIG.trails) * 0.03 },
             x,
             y
           )
