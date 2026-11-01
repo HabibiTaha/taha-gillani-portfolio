@@ -152,7 +152,7 @@ export default function App() {
               {/* Academic HUD Badges */}
               <div className="flex flex-wrap gap-3 md:gap-4 mb-6 justify-center md:justify-start">
                 <span className="text-[10px] md:text-xs lg:text-sm font-mono border border-cyan-400/30 text-cyan-400 bg-cyan-950/20 px-2.5 py-1 md:px-3 md:py-1.5 rounded-md shadow-[0_0_8px_rgba(6,182,212,0.15)] academic-badge cs">
-                  3rd-Year CS @ U of Lethbridge
+                  4th-Year CS @ U of Lethbridge
                 </span>
                 <span className="text-[10px] md:text-xs lg:text-sm font-mono border border-pink-500/30 text-pink-400 bg-pink-950/20 px-2.5 py-1 md:px-3 md:py-1.5 rounded-md shadow-[0_0_8px_rgba(236,72,153,0.15)] academic-badge gpa">
                   GPA: 3.8
@@ -163,9 +163,7 @@ export default function App() {
               </div>
  
               <p className="text-xs md:text-sm lg:text-base text-white/50 leading-relaxed max-w-2xl xl:max-w-3xl mb-8 font-sans text-left">
-                Beyond the code, I'm a developer driven by curiosity, problem-solving, and a love for building things that work. 
-                When I'm not coding full-stack applications or designing systems, you can usually find me playing sports, diving into video games, or exploring the latest in technology and finance. 
-                I enjoy blending logical engineering with active and creative pursuits. I am actively seeking co-op and internship opportunities for the 2026–2027 terms. If you are a recruiter, please don't hesitate to reach out. I would love to connect to discuss new experiences and learning opportunities!
+                I'm currently obsessed with agentic AI. I create data-driven digital products that drive a competitive edge. When I'm not coding applications or designing systems, you can usually find me playing sports, diving into video games, or exploring the latest in technology and finance. I enjoy blending logical engineering with active and creative pursuits.
               </p>
  
               {/* Clickable Brand & Action Icon Links */}
