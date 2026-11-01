@@ -163,7 +163,7 @@ export default function App() {
               </div>
  
               <p className="text-xs md:text-sm lg:text-base text-white/50 leading-relaxed max-w-2xl xl:max-w-3xl mb-8 font-sans text-left">
-                I make products and autonomous AI systems that drive a competitive edge. At Imperio, I modernized operations across 20+ rental units by architecting full-stack web platforms and automated database pipelines that slashed admin overhead by 10+ hours weekly. My recent work focuses on building agentic workflows and data engines including autonomous market-trading LLM agents and real-time analytics pipelines. Want to collaborate?{' '}
+                I make software, applications and autonomous AI systems that help keep things smooth. At Imperio, I modernized operations across 20+ rental units by architecting full-stack web platforms and automated database pipelines that slashed admin overhead by 10+ hours weekly. My recent work focuses on building agentic workflows and data engines including autonomous market-trading LLM agents and real-time analytics pipelines. Want to collaborate?{' '}
                 <a
                   href="mailto:taha.gillani@uleth.ca"
                   className="underline hover:text-cyan-400 text-white/80 transition-colors"
