@@ -4,27 +4,27 @@ import { Engine, World, Bodies, Mouse, MouseConstraint, Composite, Body } from '
 const CYBER_COLORS = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']; // Cyan, Magenta, Yellow, Neon Green
 
 const SKILL_CATEGORIES: { [key: string]: number } = {
-  // Column 0: Languages
-  "Python": 0, "Java": 0, "C++": 0, "JavaScript": 0, "SQL": 0, "Lua": 0, "VBA": 0,
-  // Column 1: Frameworks & Backends
-  "React": 1, "Node.js": 1, "Express": 1, "Django": 1, "FastAPI": 1, "Supabase": 1, "Firebase": 1,
-  // Column 2: Databases & Storage
-  "PostgreSQL": 2, "MySQL": 2, "MongoDB": 2, "DynamoDB": 2, "NoSQL": 2,
+  // Column 0: Languages & Core
+  "Python": 0, "C++": 0, "Lua": 0, "VBA": 0, "HTML/CSS": 0, "JSON": 0, "SQL": 0,
+  // Column 1: Full-Stack & Web
+  "JavaScript": 1, "React": 1, "Node.js": 1, "Express": 1, "PostgreSQL": 1, "MySQL": 1,
+  // Column 2: AI & Agentic Systems
+  "AI Engineering": 2, "LLMs & SLMs": 2, "RAG Pipelines": 2, "Agentic Workflows": 2, "Tool Calling": 2, "Prompt Engineering": 2, "PyTorch": 2,
   // Column 3: Cloud & DevOps
-  "AWS": 3, "Docker": 3, "Kubernetes": 3, "Vercel": 3, "Git": 3, "CI/CD Pipelines": 3, "Agile/Scrum": 3,
-  // Column 4: AI & Automation
-  "TensorFlow": 4, "PyTorch": 4, "Amazon SageMaker": 4, "NumPy": 4, "Pandas": 4, "Model Context Protocol (MCP)": 4, "MCP": 4,
-  // Column 5: Tools & Enterprise
-  "Microsoft Power BI": 5, "PowerApps": 5, "SAP": 5, "Microsoft Office Suite": 5
+  "AWS": 3, "Lambda": 3, "DynamoDB": 3, "SageMaker": 3, "Docker": 3, "Git": 3, "Linux/Bash": 3, "Copilot Studio": 3,
+  // Column 4: Enterprise & Analytics
+  "Microsoft 365": 4, "Power BI": 4, "Power Automate": 4, "Microsoft Dataverse": 4, "SAP": 4,
+  // Column 5: Business Foundations
+  "Profit Margins & Splits": 5, "Client Sales": 5, "Financial Accounting": 5, "Process Automation": 5, "Trading Models": 5
 };
 
 const CATEGORY_NAMES = [
-  "Languages",
-  "Frameworks",
-  "Databases",
+  "Languages & Core",
+  "Full-Stack & Web",
+  "AI & Agentic Systems",
   "Cloud & DevOps",
-  "AI & Automation",
-  "Tools & Enterprise"
+  "Enterprise & Analytics",
+  "Business Foundations"
 ];
 
 interface PhysicsSkillsProps {
@@ -172,12 +172,12 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     Composite.add(engine.world, [wallLeft, wallRight, floor, ceiling]);
 
     const skills = [
-      "Python", "Java", "C++", "JavaScript", "SQL", "Lua", "VBA", 
-      "React", "Node.js", "Express", "Django", "FastAPI", "Supabase", "Firebase", 
-      "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "NoSQL", 
-      "AWS", "Docker", "Kubernetes", "Vercel", "Git", "CI/CD Pipelines", "Agile/Scrum", 
-      "TensorFlow", "PyTorch", "Amazon SageMaker", "NumPy", "Pandas", "Model Context Protocol (MCP)", 
-      "Microsoft Power BI", "PowerApps", "SAP", "Microsoft Office Suite"
+      "Python", "C++", "Lua", "VBA", "HTML/CSS", "JSON", "SQL",
+      "JavaScript", "React", "Node.js", "Express", "PostgreSQL", "MySQL",
+      "AI Engineering", "LLMs & SLMs", "RAG Pipelines", "Agentic Workflows", "Tool Calling", "Prompt Engineering", "PyTorch",
+      "AWS", "Lambda", "DynamoDB", "SageMaker", "Docker", "Git", "Linux/Bash", "Copilot Studio",
+      "Microsoft 365", "Power BI", "Power Automate", "Microsoft Dataverse", "SAP",
+      "Profit Margins & Splits", "Client Sales", "Financial Accounting", "Process Automation", "Trading Models"
     ];
 
     const isMobile = window.innerWidth < 768;
@@ -432,9 +432,9 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         const colWidth = currentWidth / numCols;
         
         const mobileHeaders = [
-          "LANGS & FRAMEWORKS",
-          "DATA & DEVOPS",
-          "AI & ENTERPRISE"
+          "LANGS & WEB",
+          "AI & CLOUD",
+          "ENTERPRISE & BIZ"
         ];
 
         const headerY = isMobile ? 110 : 80;
