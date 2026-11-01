@@ -13,9 +13,7 @@ const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 3: Cloud & DevOps
   "AWS": 3, "Lambda": 3, "DynamoDB": 3, "SageMaker": 3, "Docker": 3, "Git": 3, "Linux/Bash": 3, "Copilot Studio": 3,
   // Column 4: Enterprise & Analytics
-  "Microsoft 365": 4, "Power BI": 4, "Power Automate": 4, "Microsoft Dataverse": 4, "SAP": 4,
-  // Column 5: Business Foundations
-  "Profit Margins & Splits": 5, "Client Sales": 5, "Financial Accounting": 5, "Process Automation": 5, "Trading Models": 5
+  "Microsoft 365": 4, "Power BI": 4, "Power Automate": 4, "Microsoft Dataverse": 4, "SAP": 4
 };
 
 const CATEGORY_NAMES = [
@@ -23,8 +21,7 @@ const CATEGORY_NAMES = [
   "Full-Stack & Web",
   "AI & Agentic Systems",
   "Cloud & DevOps",
-  "Enterprise & Analytics",
-  "Business Foundations"
+  "Enterprise & Analytics"
 ];
 
 interface PhysicsSkillsProps {
@@ -103,15 +100,15 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         const currentWidth = dimensionsRef.current.width;
         const currentHeight = dimensionsRef.current.height;
         const isMobile = window.innerWidth < 768;
-        const numCols = isMobile ? 3 : 6;
+        const numCols = isMobile ? 3 : 5;
         const colWidth = currentWidth / numCols;
-        const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0, 0];
+        const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0];
 
         bodies.forEach((body) => {
           if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
             const catIndex = SKILL_CATEGORIES[body.label];
             const colIndex = isMobile 
-              ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 || catIndex === 3 ? 1 : 2)
+              ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 ? 1 : 2)
               : catIndex;
             const itemIndex = colCounters[colIndex]++;
             const blockHeight = (body as any).h || 42;
@@ -176,8 +173,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
       "JavaScript", "React", "Node.js", "Express", "Firebase", "PostgreSQL", "MySQL",
       "AI Engineering", "LLMs & SLMs", "RAG Pipelines", "Agentic Workflows", "Tool Calling", "Prompt Engineering", "PyTorch",
       "AWS", "Lambda", "DynamoDB", "SageMaker", "Docker", "Git", "Linux/Bash", "Copilot Studio",
-      "Microsoft 365", "Power BI", "Power Automate", "Microsoft Dataverse", "SAP",
-      "Profit Margins & Splits", "Client Sales", "Financial Accounting", "Process Automation", "Trading Models"
+      "Microsoft 365", "Power BI", "Power Automate", "Microsoft Dataverse", "SAP"
     ];
 
     const isMobile = window.innerWidth < 768;
@@ -213,14 +209,14 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
     // If initial state is stacked, organize them immediately
     if (stackedRef.current) {
       const isMobile = window.innerWidth < 768;
-      const numCols = isMobile ? 3 : 6;
+      const numCols = isMobile ? 3 : 5;
       const colWidth = width / numCols;
-      const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0, 0];
+      const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0];
       blocks.forEach((block) => {
         if (block.label && SKILL_CATEGORIES[block.label] !== undefined) {
           const catIndex = SKILL_CATEGORIES[block.label];
           const colIndex = isMobile 
-            ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 || catIndex === 3 ? 1 : 2)
+            ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 ? 1 : 2)
             : catIndex;
           const itemIndex = colCounters[colIndex]++;
           const blockHeight = (block as any).h || 42;
@@ -323,15 +319,15 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         if (stackedRef.current && engineRef.current) {
           const bodies = Composite.allBodies(engineRef.current.world);
           const isMobile = window.innerWidth < 768;
-          const numCols = isMobile ? 3 : 6;
+          const numCols = isMobile ? 3 : 5;
           const colWidth = w / numCols;
-          const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0, 0];
+          const colCounters = isMobile ? [0, 0, 0] : [0, 0, 0, 0, 0];
 
           bodies.forEach((body) => {
             if (body.label && SKILL_CATEGORIES[body.label] !== undefined) {
               const catIndex = SKILL_CATEGORIES[body.label];
               const colIndex = isMobile 
-                ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 || catIndex === 3 ? 1 : 2)
+                ? (catIndex === 0 || catIndex === 1 ? 0 : catIndex === 2 ? 1 : 2)
                 : catIndex;
               const itemIndex = colCounters[colIndex]++;
               const blockHeight = (body as any).h || 42;
@@ -428,13 +424,13 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
         ctx.font = 'bold 9px "Space Mono", monospace';
         ctx.textAlign = 'center';
         const isMobile = window.innerWidth < 768;
-        const numCols = isMobile ? 3 : 6;
+        const numCols = isMobile ? 3 : 5;
         const colWidth = currentWidth / numCols;
         
         const mobileHeaders = [
           "LANGS & WEB",
-          "AI & CLOUD",
-          "ENTERPRISE & BIZ"
+          "AI SYSTEMS",
+          "CLOUD & ENTERPRISE"
         ];
 
         const headerY = isMobile ? 110 : 80;

@@ -45,8 +45,7 @@ export default function PhysicsSandbox({ zeroGravity }: PhysicsSandboxProps) {
       "JavaScript", "React", "Node.js", "Express", "Firebase", "PostgreSQL", "MySQL",
       "AI Engineering", "LLMs & SLMs", "RAG Pipelines", "Agentic Workflows", "Tool Calling", "Prompt Engineering", "PyTorch",
       "AWS", "Lambda", "DynamoDB", "SageMaker", "Docker", "Git", "Linux/Bash", "Copilot Studio",
-      "Microsoft 365", "Power BI", "Power Automate", "Microsoft Dataverse", "SAP",
-      "Profit Margins & Splits", "Client Sales", "Financial Accounting", "Process Automation", "Trading Models"
+      "Microsoft 365", "Power BI", "Power Automate", "Microsoft Dataverse", "SAP"
     ];
     const blocks = skills.map((skill, index) => {
       // Calculate dynamic block size based on text length
