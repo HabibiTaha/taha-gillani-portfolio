@@ -69,18 +69,48 @@ const EXPERIENCE_ITEMS: AccordionItem[] = [
 const PROJECT_ITEMS: AccordionItem[] = [
   {
     id: 'proj-aws',
-    title: 'SERVERLESS CLOUD PIPELINE (LIVE)',
-    subtitle: 'AWS Lambda / DynamoDB / API Gateway / React',
+    title: 'Crypto Live AWS Dashboard',
+    subtitle: 'Python / AWS Lambda / DynamoDB / Serverless',
     color: '#00FFA3', // Neon Green
     logo: '/cloud_db_logo.png',
     logoBg: '#000000',
     bullets: [
-      'Architected a serverless real-time data ingestion pipeline deployed to the AWS ca-west-1 (Calgary) region.',
-      'Engineered a Python-based Lambda function triggered via EventBridge to fetch and format live cryptocurrency market data.',
-      'Exposed a secure REST API via AWS API Gateway to query DynamoDB and serve telemetry directly to the frontend interface.'
+      'Built a serverless pipeline in Python deployed on AWS Lambda that constantly pulls live crypto prices and market data from the CoinGecko API without server maintenance.',
+      'Set up Amazon DynamoDB tables to store keys and ensure high frequency updates. Currently supporting Bitcoin and Ethereum.',
+      'Connected the database to a web dashboard showing live price swings, volume metrics, and custom threshold alerts for price spikes and dips.'
     ],
-    tech: ['Python', 'AWS', 'Serverless', 'REST API', 'DynamoDB'],
+    tech: ['Python', 'AWS Lambda', 'DynamoDB', 'Serverless', 'CoinGecko API', 'REST API'],
     github: 'https://github.com/HabibiTaha/aws-live-crypto-dashboard'
+  },
+  {
+    id: 'proj-tradeai',
+    title: 'TradeAI — Autonomous Market & Trading Agent',
+    subtitle: 'Python / LLM Agents / Financial APIs / Webhooks',
+    color: '#00FFFF', // Neon Cyan
+    logo: '/engine_logo.png',
+    logoBg: '#000000',
+    bullets: [
+      'Eliminated hours of manual viewing across the S&P 500 by building an automated Python pipeline that pulls real-time price feeds, earnings transcripts, and financial news via market APIs.',
+      'Hooked up an autonomous LLM agent that evaluated trends within the market, calculating risk-to-reward ratios and dispatching structured trade alerts and would buy/sell autonomously.',
+      'Set up another agent that would browse socials/internet to predict future trends and report them back through Discord.'
+    ],
+    tech: ['Python', 'LLM Agents', 'Financial APIs', 'Webhooks', 'Discord API', 'Risk Analysis'],
+    github: 'https://github.com/HabibiTaha'
+  },
+  {
+    id: 'proj-hatewatch',
+    title: 'Hatewatch — NFLAnalytics & Automated Tracking Engine',
+    subtitle: 'Python / AI Agents / REST APIs / PostgreSQL / React',
+    color: '#FF0055', // Hot Red/Pink
+    logo: '/cloud_db_logo.png',
+    logoBg: '#000000',
+    bullets: [
+      'Built a full-stack tracking engine that pulls live NFL stats and game feeds via Sportsradar API, zeroing in on everything that goes wrong: turnovers, blown plays, penalty yards, and negative EPA plays.',
+      'Built an AI agent that fetches game logs and player stats, sending automated updates whenever a player commits a turnover, penalty, or blown play.',
+      'Wrote scoring algorithms in Python to calculate real-time "liability ratings" for players and teams, displaying live rankings on a custom React dashboard.'
+    ],
+    tech: ['Python', 'AI Agents / LLMs', 'REST APIs', 'PostgreSQL', 'React', 'Sportsradar API'],
+    github: 'https://github.com/HabibiTaha'
   },
   {
     id: 'proj-1',
@@ -93,7 +123,7 @@ const PROJECT_ITEMS: AccordionItem[] = [
       'Engineered a custom single-page portfolio built around a high-performance 2D physics engine dashboard.',
       'Designed a full-screen scroll-locked boot sequence with a character-by-character slow typewriter intro and blinking cursor.',
       'Implemented smooth layout transformations using Framer Motion to reveal dashboard components upon intro completion.',
-      'Built an interactive Matter.js canvas hosting 37 skill blocks, featuring Zero Gravity floating states and category-based column stacking.',
+      'Built an interactive Matter.js canvas hosting 36 skill blocks, featuring Zero Gravity floating states and category-based column stacking.',
       'Implemented custom passive wheel and touch event intercepts to allow seamless page scrollability on desktop and mobile.'
     ],
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Matter.js', 'Vite'],
