@@ -30,12 +30,13 @@ class WaveOscillator {
   }
 }
 
+// Exact physics constants from tejasthind.com
 const CONFIG = {
-  friction: 0.45,
-  trails: 16,
-  size: 24,
+  friction: 0.5,
+  trails: 20,
+  size: 50,
   dampening: 0.25,
-  tension: 0.95,
+  tension: 0.98,
 };
 
 class Line {
@@ -112,7 +113,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
   }, [theme]);
 
   useEffect(() => {
-    // Only run on fine pointers (desktop mouse/trackpad)
+    // Only run on desktop mouse/fine pointers
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       return;
     }
@@ -130,6 +131,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
       initialized: false,
+      lastMoveTime: 0,
     };
 
     let trails: Line[] = [];
@@ -139,7 +141,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
       for (let i = 0; i < CONFIG.trails; i++) {
         trails.push(
           new Line(
-            { spring: 0.52 + (i / CONFIG.trails) * 0.03 },
+            { spring: 0.45 + (i / CONFIG.trails) * 0.025 },
             x,
             y
           )
@@ -163,6 +165,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
     const handlePointerMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
+      mouse.lastMoveTime = performance.now();
       if (!mouse.initialized) {
         mouse.initialized = true;
         initTrails(mouse.x, mouse.y);
@@ -189,23 +192,45 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
       ctx.globalCompositeOperation = 'source-over';
       ctx.clearRect(0, 0, width, height);
 
-      const isDark = themeRef.current === 'dark';
-      const hue = Math.round(oscillator.update());
+      const now = performance.now();
+      const idleTime = mouse.initialized ? now - mouse.lastMoveTime : Infinity;
 
-      if (isDark) {
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.strokeStyle = `hsla(${hue}, 70%, 55%, 0.22)`;
-      } else {
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.strokeStyle = `hsla(${hue}, 75%, 45%, 0.3)`;
+      // Full opacity while actively moving, smoothly fades out over ~500ms once mouse stops
+      let fade = 0;
+      if (idleTime < 180) {
+        fade = 1.0;
+      } else if (idleTime < 700) {
+        fade = Math.max(0, 1 - (idleTime - 180) / 520);
       }
 
-      ctx.lineWidth = 1;
+      if (fade > 0 && trails.length > 0) {
+        const isDark = themeRef.current === 'dark';
+        const hue = Math.round(oscillator.update());
 
-      if (trails.length > 0) {
+        if (isDark) {
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.strokeStyle = `hsla(${hue}, 70%, 55%, ${0.22 * fade})`;
+        } else {
+          ctx.globalCompositeOperation = 'multiply';
+          ctx.strokeStyle = `hsla(${hue}, 75%, 45%, ${0.3 * fade})`;
+        }
+
+        ctx.lineWidth = 1;
+
         for (let i = 0; i < trails.length; i++) {
           trails[i].update(mouse.x, mouse.y);
           trails[i].draw(ctx);
+        }
+      } else if (fade === 0 && trails.length > 0 && mouse.initialized) {
+        // While invisible, align nodes cleanly to mouse so it blooms smoothly on next move
+        for (let i = 0; i < trails.length; i++) {
+          const t = trails[i];
+          for (let j = 0; j < t.nodes.length; j++) {
+            t.nodes[j].x = mouse.x;
+            t.nodes[j].y = mouse.y;
+            t.nodes[j].vx = 0;
+            t.nodes[j].vy = 0;
+          }
         }
       }
 
@@ -217,7 +242,6 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
     window.addEventListener('focus', handleFocus);
     window.addEventListener('blur', handleBlur);
 
-    // Initial render call
     render();
 
     return () => {
