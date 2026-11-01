@@ -4,16 +4,107 @@ interface CursorTrailProps {
   theme: 'dark' | 'light';
 }
 
-interface CircleSegment {
-  x: number;
-  y: number;
+class Node {
+  x = 0;
+  y = 0;
+  vx = 0;
+  vy = 0;
+}
+
+class WaveOscillator {
+  phase: number;
+  offset: number;
+  frequency: number;
+  amplitude: number;
+
+  constructor(options: { phase?: number; offset?: number; frequency?: number; amplitude?: number }) {
+    this.phase = options.phase || 0;
+    this.offset = options.offset || 0;
+    this.frequency = options.frequency || 0.001;
+    this.amplitude = options.amplitude || 1;
+  }
+
+  update(): number {
+    this.phase += this.frequency;
+    return this.offset + Math.sin(this.phase) * this.amplitude;
+  }
+}
+
+const CONFIG = {
+  friction: 0.5,
+  trails: 20,
+  size: 50,
+  dampening: 0.25,
+  tension: 0.98,
+};
+
+class Line {
+  spring: number;
+  friction: number;
+  nodes: Node[];
+
+  constructor(options: { spring: number }, initX: number, initY: number) {
+    this.spring = options.spring + 0.1 * Math.random() - 0.02;
+    this.friction = CONFIG.friction + 0.01 * Math.random() - 0.002;
+    this.nodes = [];
+    for (let i = 0; i < CONFIG.size; i++) {
+      const node = new Node();
+      node.x = initX;
+      node.y = initY;
+      this.nodes.push(node);
+    }
+  }
+
+  update(targetX: number, targetY: number) {
+    let spring = this.spring;
+    const head = this.nodes[0];
+    head.vx += (targetX - head.x) * spring;
+    head.vy += (targetY - head.y) * spring;
+
+    for (let i = 0; i < this.nodes.length; i++) {
+      const node = this.nodes[i];
+      if (i > 0) {
+        const prev = this.nodes[i - 1];
+        node.vx += (prev.x - node.x) * spring;
+        node.vy += (prev.y - node.y) * spring;
+        node.vx += prev.vx * CONFIG.dampening;
+        node.vy += prev.vy * CONFIG.dampening;
+      }
+      node.vx *= this.friction;
+      node.vy *= this.friction;
+      node.x += node.vx;
+      node.y += node.vy;
+      spring *= CONFIG.tension;
+    }
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    let currX = this.nodes[0].x;
+    let currY = this.nodes[0].y;
+    ctx.beginPath();
+    ctx.moveTo(currX, currY);
+
+    for (let i = 1; i < this.nodes.length - 2; i++) {
+      const a = this.nodes[i];
+      const b = this.nodes[i + 1];
+      currX = 0.5 * (a.x + b.x);
+      currY = 0.5 * (a.y + b.y);
+      ctx.quadraticCurveTo(a.x, a.y, currX, currY);
+    }
+
+    if (this.nodes.length >= 2) {
+      const a = this.nodes[this.nodes.length - 2];
+      const b = this.nodes[this.nodes.length - 1];
+      ctx.quadraticCurveTo(a.x, a.y, b.x, b.y);
+    }
+
+    ctx.stroke();
+    ctx.closePath();
+  }
 }
 
 export default function CursorTrail({ theme }: CursorTrailProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const circlesRef = useRef<CircleSegment[]>([]);
-  const mouseRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-  const hueRef = useRef(0);
   const themeRef = useRef(theme);
 
   useEffect(() => {
@@ -21,8 +112,10 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
   }, [theme]);
 
   useEffect(() => {
-    // Disable cursor trail on mobile viewports for performance
-    if (window.innerWidth < 768) return;
+    // Only run on fine pointers (desktop mouse/trackpad)
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      return;
+    }
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -30,84 +123,120 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Resize canvas to fill window
-    const resizeCanvas = () => {
+    let isRunning = true;
+    let animationFrameId: number;
+
+    const mouse = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      initialized: false,
+    };
+
+    let trails: Line[] = [];
+
+    const initTrails = (x: number, y: number) => {
+      trails = [];
+      for (let i = 0; i < CONFIG.trails; i++) {
+        trails.push(
+          new Line(
+            { spring: 0.45 + (i / CONFIG.trails) * 0.025 },
+            x,
+            y
+          )
+        );
+      }
+    };
+
+    const oscillator = new WaveOscillator({
+      phase: 2 * Math.PI * Math.random(),
+      amplitude: 85,
+      frequency: 0.0015,
+      offset: 285,
+    });
+
+    const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    resize();
 
-    // Initialize trail segments
-    const numCircles = 25; // Number of trail segments
-    const circles: CircleSegment[] = [];
-    for (let i = 0; i < numCircles; i++) {
-      circles.push({ x: mouseRef.current.x, y: mouseRef.current.y });
-    }
-    circlesRef.current = circles;
-
-    // Track mouse movement
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.clientX;
-      mouseRef.current.y = e.clientY;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-
-    // Animation render loop
-    let animationFrameId: number;
-
-    const drawTrail = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      let targetX = mouseRef.current.x;
-      let targetY = mouseRef.current.y;
-
-      // Increment hue for color cycling over time
-      hueRef.current = (hueRef.current + 1.2) % 360;
-
-      circlesRef.current.forEach((circle, index) => {
-        // Spring physics: move each circle a percentage of the distance to the target
-        // Added a tiny extra delay (multiplier reduced from 0.3 to 0.2)
-        circle.x += (targetX - circle.x) * 0.2;
-        circle.y += (targetY - circle.y) * 0.2;
-
-        // Draw the segment
-        ctx.beginPath();
-        // Size shrinks down the trail (tapered multiplier reduced from 0.4 to 0.25 for smaller scale)
-        const radius = (numCircles - index) * 0.25;
-        ctx.arc(circle.x, circle.y, Math.max(radius, 0.1), 0, Math.PI * 2);
-        
-        // Opacity fades out
-        const opacity = (numCircles - index) / numCircles;
-        
-        // Color cycle: smooth HSL shifts along the trail, adapting brightness for light/dark themes
-        const hue = (hueRef.current + index * 4.5) % 360;
-        const lightness = themeRef.current === 'dark' ? 60 : 45; // slightly darker/richer colors in light mode
-        ctx.fillStyle = `hsla(${hue}, 100%, ${lightness}%, ${opacity * 0.55})`;
-        ctx.fill();
-
-        // The next circle's target is the current circle's position
-        targetX = circle.x;
-        targetY = circle.y;
-      });
-
-      animationFrameId = requestAnimationFrame(drawTrail);
+    const handlePointerMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (!mouse.initialized) {
+        mouse.initialized = true;
+        initTrails(mouse.x, mouse.y);
+      }
     };
 
-    animationFrameId = requestAnimationFrame(drawTrail);
+    const handleFocus = () => {
+      if (!isRunning) {
+        isRunning = true;
+        render();
+      }
+    };
+
+    const handleBlur = () => {
+      isRunning = false;
+    };
+
+    const render = () => {
+      if (!isRunning) return;
+
+      const width = canvas.width;
+      const height = canvas.height;
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, width, height);
+
+      const isDark = themeRef.current === 'dark';
+      const hue = Math.round(oscillator.update());
+
+      if (isDark) {
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.strokeStyle = `hsla(${hue}, 70%, 55%, 0.22)`;
+      } else {
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.strokeStyle = `hsla(${hue}, 75%, 45%, 0.3)`;
+      }
+
+      ctx.lineWidth = 1;
+
+      if (trails.length > 0) {
+        for (let i = 0; i < trails.length; i++) {
+          trails[i].update(mouse.x, mouse.y);
+          trails[i].draw(ctx);
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('resize', resize);
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('blur', handleBlur);
+
+    // Initial render call
+    render();
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
+      isRunning = false;
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('blur', handleBlur);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[9999] hidden md:block"
-      style={{ mixBlendMode: theme === 'dark' ? 'screen' : 'multiply' }}
+      className="pointer-events-none fixed inset-0 z-50 hidden md:block"
+      style={{
+        mixBlendMode: theme === 'dark' ? 'screen' : 'multiply',
+      }}
     />
   );
 }
