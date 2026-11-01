@@ -32,9 +32,9 @@ class WaveOscillator {
 
 // Exact physics constants from tejasthind.com
 const CONFIG = {
-  friction: 0.52,
+  friction: 0.5,
   trails: 20,
-  size: 35,
+  size: 50,
   dampening: 0.25,
   tension: 0.98,
 };
@@ -141,7 +141,7 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
       for (let i = 0; i < CONFIG.trails; i++) {
         trails.push(
           new Line(
-            { spring: 0.48 + (i / CONFIG.trails) * 0.03 },
+            { spring: 0.45 + (i / CONFIG.trails) * 0.025 },
             x,
             y
           )
@@ -195,12 +195,12 @@ export default function CursorTrail({ theme }: CursorTrailProps) {
       const now = performance.now();
       const idleTime = mouse.initialized ? now - mouse.lastMoveTime : Infinity;
 
-      // Full opacity while actively moving, quickly dissolves over ~260ms once mouse stops
+      // Full opacity while actively moving, smoothly fades out over ~500ms once mouse stops
       let fade = 0;
-      if (idleTime < 70) {
+      if (idleTime < 180) {
         fade = 1.0;
-      } else if (idleTime < 330) {
-        fade = Math.max(0, 1 - (idleTime - 70) / 260);
+      } else if (idleTime < 700) {
+        fade = Math.max(0, 1 - (idleTime - 180) / 520);
       }
 
       if (fade > 0 && trails.length > 0) {
