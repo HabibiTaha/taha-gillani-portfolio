@@ -5,6 +5,7 @@ import CursorTrail from './components/CursorTrail';
 import TabsContent from './components/TabsContent';
 import PhysicsSkills from './components/PhysicsSkills';
 import TypewriterIntro from './components/TypewriterIntro';
+import ScrollRevealText from './components/ScrollRevealText';
 
 // Custom GithubIcon SVG
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -236,6 +237,8 @@ export default function App() {
       {/* ─── 2. TABBED CONTENT SECTION (MIDDLE) ─── */}
       <section className={`w-full py-24 px-6 md:px-24 lg:px-32 border-b border-white/5 bg-studio-900/10 transition-all duration-1000 ${introCompleted ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto flex flex-col items-center">
+
+          <ScrollRevealText theme={theme} />
 
           <div className="w-full text-left">
             <TabsContent />
