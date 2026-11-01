@@ -7,7 +7,7 @@ const SKILL_CATEGORIES: { [key: string]: number } = {
   // Column 0: Languages & Core
   "Python": 0, "C++": 0, "Lua": 0, "VBA": 0, "HTML/CSS": 0, "JSON": 0, "SQL": 0,
   // Column 1: Full-Stack & Web
-  "JavaScript": 1, "React": 1, "Node.js": 1, "Express": 1, "PostgreSQL": 1, "MySQL": 1,
+  "JavaScript": 1, "React": 1, "Node.js": 1, "Express": 1, "Firebase": 1, "PostgreSQL": 1, "MySQL": 1,
   // Column 2: AI & Agentic Systems
   "AI Engineering": 2, "LLMs & SLMs": 2, "RAG Pipelines": 2, "Agentic Workflows": 2, "Tool Calling": 2, "Prompt Engineering": 2, "PyTorch": 2,
   // Column 3: Cloud & DevOps
@@ -173,7 +173,7 @@ export default function PhysicsSkills({ zeroGravity, onToggleGravity, stacked, o
 
     const skills = [
       "Python", "C++", "Lua", "VBA", "HTML/CSS", "JSON", "SQL",
-      "JavaScript", "React", "Node.js", "Express", "PostgreSQL", "MySQL",
+      "JavaScript", "React", "Node.js", "Express", "Firebase", "PostgreSQL", "MySQL",
       "AI Engineering", "LLMs & SLMs", "RAG Pipelines", "Agentic Workflows", "Tool Calling", "Prompt Engineering", "PyTorch",
       "AWS", "Lambda", "DynamoDB", "SageMaker", "Docker", "Git", "Linux/Bash", "Copilot Studio",
       "Microsoft 365", "Power BI", "Power Automate", "Microsoft Dataverse", "SAP",
